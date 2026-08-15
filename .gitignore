@@ -1,0 +1,18 @@
+# Ambientes Virtuais
+.venv/
+env/
+venv/
+
+# Variáveis de Ambiente
+.env
+
+# Pastas de Cache Python
+__pycache__/
+*.py[cod]
+
+# Arquivos Gerados
+output/
+
+# Ignorar vídeos grandes, manter estrutura da pasta (opcional)
+# assets/backgrounds/*.mp4
+# assets/backgrounds/*.mov
