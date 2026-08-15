@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AllSocialMidia • Produtora de Vídeos para Redes Sociais</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --bg-card: #12161f;
+      --bg-card-hover: #181e2b;
+      --bg-input: #1a202c;
+      --border-color: #232d3f;
+      --border-focus: #3b82f6;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent-neon: #00f0ff;
+      --accent-yellow: #ffe600;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --success: #10b981;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(18, 22, 31, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      background: linear-gradient(135deg, #2563eb, #00f0ff);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .brand-title h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .brand-title p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--bg-input);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.5rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1200px) {
+      .grid-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+    }
+
+    .card-header h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(37, 99, 235, 0.15);
+      color: #60a5fa;
+      font-weight: 600;
+      border: 1px solid rgba(37, 99, 235, 0.3);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    select, input, textarea {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--border-focus);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+      line-height: 1.4;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-focus);
+    }
+
+    .btn-magic {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+    }
+
+    .btn-magic:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
+    }
+
+    .color-swatches {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .swatch.active {
+      border-color: #fff;
+      transform: scale(1.15);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .preview-container {
+      background: #000;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      position: relative;
+      border: 1px solid var(--border-color);
+    }
+
+    video {
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+
+    .placeholder-preview {
+      text-align: center;
+      color: var(--text-dim);
+      padding: 2rem;
+    }
+
+    .placeholder-preview span {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-box {
+      display: none;
+      background: var(--bg-input);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-bar-outer {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .progress-bar-inner {
+      background: linear-gradient(90deg, #3b82f6, #00f0ff);
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag-chip {
+      background: rgba(37, 99, 235, 0.15);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Batch table */
+    .batch-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .batch-table th, .batch-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.85rem;
+    }
+
+    .batch-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🎬</div>
+      <div class="brand-title">
+        <h1>AllSocialMidia Studio</h1>
+        <p>Produtora Inteligente de Vídeos para Redes Sociais</p>
+      </div>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('single')">🎬 Estúdio Criativo</button>
+      <button class="tab-btn" onclick="switchTab('batch')">🏭 Produção em Lote (Batch)</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TAB 1: ESTÚDIO INDIVIDUAL -->
+    <div id="tab-single" class="grid-container">
+
+      <!-- COLUNA 1: ROTEIRO & IA -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🧠 1. Roteiro & Nicho</h2>
+          <span class="badge">Inteligência Gemini</span>
+        </div>
+
+        <div class="form-group">
+          <label>Nicho de Conteúdo</label>
+          <select id="niche-select" onchange="onNicheChange()"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Tema ou Ideia Específica</label>
+          <input type="text" id="topic-input" placeholder="Ex: O poder de dizer não e focar em você...">
+        </div>
+
+        <button class="btn btn-magic" onclick="generateScriptWithAI()">
+          ✨ Gerar Roteiro Viral com IA
+        </button>
+
+        <div class="form-group">
+          <label>🪝 Gancho Inicial (Primeiros 3 segundos)</label>
+          <textarea id="script-hook" placeholder="Frase magnética que evita o scroll..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>📄 Corpo do Conteúdo</label>
+          <textarea id="script-body" style="min-height: 90px;" placeholder="Mensagem principal do vídeo..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>📣 Chamada para Ação (CTA)</label>
+          <input type="text" id="script-cta" placeholder="Ex: Siga para mais insights diários.">
+        </div>
+
+        <div class="form-group">
+          <label>📌 Título do Post & Hashtags</label>
+          <input type="text" id="script-title" placeholder="Título chamativo...">
+          <div id="hashtags-list" class="tags-container" style="margin-top: 6px;"></div>
+        </div>
+      </div>
+
+      <!-- COLUNA 2: ÁUDIO & ESTILO VISUAL -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🎙️ 2. Voz, Áudio & Legendas</h2>
+          <span class="badge">Design Sonoro</span>
+        </div>
+
+        <div class="form-group">
+          <label>Voz Neural Narradora</label>
+          <select id="voice-select"></select>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary" style="flex: 1;" onclick="previewVoiceAudio()">
+            🔊 Ouvir Prévia da Voz
+          </button>
+          <audio id="audio-preview-player" controls class="hidden"></audio>
+        </div>
+
+        <div class="form-group">
+          <label>Trilha Sonora de Fundo (BGM)</label>
+          <select id="bgm-select"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Volume da Trilha (Audio Ducking)</label>
+          <input type="range" id="bgm-volume" min="0.05" max="0.4" step="0.05" value="0.15">
+        </div>
+
+        <div class="form-group">
+          <label>Proporção do Vídeo (Aspect Ratio)</label>
+          <select id="ratio-select"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Cor de Destaque das Legendas (Hormozi)</label>
+          <div class="color-swatches" id="color-swatches"></div>
+        </div>
+
+        <div class="form-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
+          <label style="margin: 0;">Barra de Progresso no Rodapé</label>
+          <input type="checkbox" id="progress-bar-toggle" checked style="width: 20px; height: 20px; cursor: pointer;">
+        </div>
+      </div>
+
+      <!-- COLUNA 3: RENDERIZADOR & PRÉVIA -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🎬 3. Produção & Prévia</h2>
+          <span class="badge">Renderizador HD</span>
+        </div>
+
+        <button class="btn" style="padding: 1rem; font-size: 1.05rem;" onclick="startVideoProduction()">
+          🚀 Produzir & Renderizar Vídeo
+        </button>
+
+        <div id="progress-card" class="progress-box">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span id="stage-text">Iniciando composição...</span>
+            <span id="percent-text" style="font-weight: 700; color: var(--accent-neon);">0%</span>
+          </div>
+          <div class="progress-bar-outer">
+            <div id="progress-fill" class="progress-bar-inner"></div>
+          </div>
+        </div>
+
+        <div class="preview-container">
+          <div id="preview-placeholder" class="placeholder-preview">
+            <span>📹</span>
+            <p>Seu vídeo final renderizado com legendas e áudio aparecerá aqui.</p>
+          </div>
+          <video id="final-video-player" controls class="hidden"></video>
+        </div>
+
+        <div id="kit-actions" class="hidden" style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a id="download-video-btn" class="btn btn-secondary" download style="text-decoration: none;">
+            ⬇️ Baixar Vídeo MP4
+          </a>
+          <button class="btn btn-secondary" onclick="copyPostCopy()">
+            📋 Copiar Título, Legenda & Hashtags
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: ESTEIRA EM LOTE (BATCH) -->
+    <div id="tab-batch" class="card hidden">
+      <div class="card-header">
+        <h2>🏭 Produção de Conteúdo em Lote (Batch Factory)</h2>
+        <span class="badge">Agendamento & Automação</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <div class="form-group">
+          <label>Nicho em Lote</label>
+          <select id="batch-niche-select"></select>
+        </div>
+        <div class="form-group">
+          <label>Quantidade de Vídeos</label>
+          <input type="number" id="batch-count" min="2" max="15" value="3">
+        </div>
+        <div class="form-group">
+          <label>Voz</label>
+          <select id="batch-voice-select"></select>
+        </div>
+        <div class="form-group">
+          <label>Formato</label>
+          <select id="batch-ratio-select">
+            <option value="9:16">9:16 (TikTok / Reels / Shorts)</option>
+            <option value="16:9">16:9 (YouTube Widescreen)</option>
+            <option value="1:1">1:1 (Instagram Feed)</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-magic" style="margin-top: 1rem; width: fit-content;" onclick="startBatchProduction()">
+        ⚡ Iniciar Esteira de Produção em Lote
+      </button>
+
+      <div id="batch-progress-box" class="progress-box">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+          <span id="batch-stage-text">Produzindo lote...</span>
+          <span id="batch-percent-text" style="font-weight: 700; color: var(--accent-neon);">0%</span>
+        </div>
+        <div class="progress-bar-outer">
+          <div id="batch-progress-fill" class="progress-bar-inner"></div>
+        </div>
+      </div>
+
+      <div id="batch-results-container" class="hidden">
+        <h3 style="margin-top: 1.5rem; font-size: 1rem; color: #fff;">📊 Vídeos Prontos para Publicação</h3>
+        <table class="batch-table">
+          <thead>
+            <tr>
+              <th>Vídeo</th>
+              <th>Título</th>
+              <th>Duração</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="batch-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let metaData = {};
+    let selectedColor = '#FFE600';
+    let currentPostCopy = '';
+
+    async function initApp() {
+      try {
+        const res = await fetch('/api/meta');
+        metaData = await res.json();
+
+        // Populate Niches
+        const nicheSelect = document.getElementById('niche-select');
+        const batchNicheSelect = document.getElementById('batch-niche-select');
+        metaData.niches.forEach(n => {
+          nicheSelect.innerHTML += `<option value="${n.id}">${n.name}</option>`;
+          batchNicheSelect.innerHTML += `<option value="${n.id}">${n.name}</option>`;
+        });
+        onNicheChange();
+
+        // Populate Voices
+        const voiceSelect = document.getElementById('voice-select');
+        const batchVoiceSelect = document.getElementById('batch-voice-select');
+        metaData.voices.forEach(v => {
+          voiceSelect.innerHTML += `<option value="${v.id}">${v.name}</option>`;
+          batchVoiceSelect.innerHTML += `<option value="${v.id}">${v.name}</option>`;
+        });
+
+        // Populate BGMs
+        const bgmSelect = document.getElementById('bgm-select');
+        bgmSelect.innerHTML = '<option value="">Sem música de fundo</option>';
+        metaData.bgm_tracks.forEach(b => {
+          bgmSelect.innerHTML += `<option value="${b}">${b}</option>`;
+        });
+        if (metaData.bgm_tracks.includes('dark_stoic')) {
+          bgmSelect.value = 'dark_stoic';
+        }
+
+        // Populate Aspect Ratios
+        const ratioSelect = document.getElementById('ratio-select');
+        metaData.aspect_ratios.forEach(r => {
+          ratioSelect.innerHTML += `<option value="${r.id}">${r.name}</option>`;
+        });
+
+        // Populate Colors
+        const swatchContainer = document.getElementById('color-swatches');
+        metaData.colors.forEach((c, idx) => {
+          const div = document.createElement('div');
+          div.className = `swatch ${idx === 0 ? 'active' : ''}`;
+          div.style.backgroundColor = c.hex;
+          div.title = c.name;
+          div.onclick = () => {
+            document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            div.classList.add('active');
+            selectedColor = c.hex;
+          };
+          swatchContainer.appendChild(div);
+        });
+
+      } catch (err) {
+        console.error('Erro ao carregar metadados:', err);
+      }
+    }
+
+    function onNicheChange() {
+      const val = document.getElementById('niche-select').value;
+      const niche = metaData.niches?.find(n => n.id === val);
+      if (niche) {
+        document.getElementById('topic-input').placeholder = `Ex: ${niche.default_topic}`;
+      }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (tab === 'single') {
+        document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+        document.getElementById('tab-single').classList.remove('hidden');
+        document.getElementById('tab-batch').classList.add('hidden');
+      } else {
+        document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+        document.getElementById('tab-single').classList.add('hidden');
+        document.getElementById('tab-batch').classList.remove('hidden');
+      }
+    }
+
+    async function generateScriptWithAI() {
+      const niche = document.getElementById('niche-select').value;
+      const topic = document.getElementById('topic-input').value.trim();
+
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '⏳ Gerando roteiro magnético...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/generate-script', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ niche, topic }),
+        });
+        const data = await res.json();
+
+        document.getElementById('script-hook').value = data.hook || '';
+        document.getElementById('script-body').value = data.body || '';
+        document.getElementById('script-cta').value = data.cta || '';
+        document.getElementById('script-title').value = data.title || '';
+
+        const tagsContainer = document.getElementById('hashtags-list');
+        tagsContainer.innerHTML = '';
+        if (data.hashtags) {
+          data.hashtags.forEach(tag => {
+            tagsContainer.innerHTML += `<span class="tag-chip">${tag}</span>`;
+          });
+        }
+
+        currentPostCopy = `📌 ${data.title}\n\n${data.description}\n\n${(data.hashtags || []).join(' ')}`;
+      } catch (err) {
+        alert('Erro ao gerar roteiro: ' + err.message);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    async function previewVoiceAudio() {
+      const hook = document.getElementById('script-hook').value.trim();
+      const body = document.getElementById('script-body').value.trim();
+      const text = `${hook} ${body}`.trim() || 'A sua paz interior é o seu maior superpoder.';
+      const voice = document.getElementById('voice-select').value;
+
+      const player = document.getElementById('audio-preview-player');
+      try {
+        const res = await fetch('/api/preview-audio', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, voice }),
+        });
+        const data = await res.json();
+        player.src = data.audio_url;
+        player.classList.remove('hidden');
+        player.play();
+      } catch (e) {
+        alert('Erro ao gerar prévia de voz: ' + e.message);
+      }
+    }
+
+    async function startVideoProduction() {
+      const hook = document.getElementById('script-hook').value.trim();
+      const body = document.getElementById('script-body').value.trim();
+      const cta = document.getElementById('script-cta').value.trim();
+
+      if (!hook && !body) {
+        alert('Por favor, gere ou digite um roteiro antes de produzir o vídeo!');
+        return;
+      }
+
+      const payload = {
+        niche: document.getElementById('niche-select').value,
+        topic: document.getElementById('topic-input').value.trim() || null,
+        hook: hook,
+        body: body,
+        cta: cta,
+        title: document.getElementById('script-title').value.trim(),
+        voice: document.getElementById('voice-select').value,
+        bgm_track: document.getElementById('bgm-select').value || null,
+        bgm_volume: parseFloat(document.getElementById('bgm-volume').value),
+        aspect_ratio: document.getElementById('ratio-select').value,
+        highlight_color: selectedColor,
+        progress_bar: document.getElementById('progress-bar-toggle').checked,
+      };
+
+      const progressCard = document.getElementById('progress-card');
+      const progressFill = document.getElementById('progress-fill');
+      const stageText = document.getElementById('stage-text');
+      const percentText = document.getElementById('percent-text');
+
+      progressCard.style.display = 'block';
+      progressFill.style.width = '10%';
+      stageText.textContent = 'Enviando requisição de renderização...';
+      percentText.textContent = '10%';
+
+      try {
+        const res = await fetch('/api/produce-video', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const { job_id } = await res.json();
+
+        // Polling do progresso
+        const interval = setInterval(async () => {
+          try {
+            const statusRes = await fetch(`/api/jobs/${job_id}`);
+            const job = await statusRes.json();
+
+            progressFill.style.width = `${job.progress}%`;
+            stageText.textContent = job.stage;
+            percentText.textContent = `${job.progress}%`;
+
+            if (job.status === 'completed') {
+              clearInterval(interval);
+              showCompletedVideo(job.result);
+            } else if (job.status === 'failed') {
+              clearInterval(interval);
+              alert('Erro na produção: ' + job.stage);
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }, 1200);
+
+      } catch (err) {
+        alert('Erro ao iniciar produção: ' + err.message);
+      }
+    }
+
+    function showCompletedVideo(res) {
+      document.getElementById('preview-placeholder').classList.add('hidden');
+      const videoPlayer = document.getElementById('final-video-player');
+      videoPlayer.src = res.video_url;
+      videoPlayer.classList.remove('hidden');
+      videoPlayer.load();
+
+      const downloadBtn = document.getElementById('download-video-btn');
+      downloadBtn.href = res.video_url;
+
+      document.getElementById('kit-actions').classList.remove('hidden');
+      currentPostCopy = `📌 ${res.title}\n\n${res.description}\n\n${(res.hashtags || []).join(' ')}`;
+    }
+
+    function copyPostCopy() {
+      if (!currentPostCopy) {
+        alert('Gere um vídeo primeiro para copiar a legenda.');
+        return;
+      }
+      navigator.clipboard.writeText(currentPostCopy);
+      alert('📋 Título, Legenda e Hashtags copiados para a área de transferência!');
+    }
+
+    async function startBatchProduction() {
+      const count = parseInt(document.getElementById('batch-count').value) || 3;
+      const niche = document.getElementById('batch-niche-select').value;
+      const voice = document.getElementById('batch-voice-select').value;
+      const aspect_ratio = document.getElementById('batch-ratio-select').value;
+
+      const progressBox = document.getElementById('batch-progress-box');
+      const progressFill = document.getElementById('batch-progress-fill');
+      const stageText = document.getElementById('batch-stage-text');
+      const percentText = document.getElementById('batch-percent-text');
+
+      progressBox.style.display = 'block';
+      progressFill.style.width = '10%';
+      stageText.textContent = `Iniciando lote de ${count} vídeos...`;
+      percentText.textContent = '10%';
+
+      try {
+        const res = await fetch('/api/produce-batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ count, niche, voice, aspect_ratio, highlight_color: selectedColor }),
+        });
+        const { job_id } = await res.json();
+
+        const interval = setInterval(async () => {
+          const statusRes = await fetch(`/api/jobs/${job_id}`);
+          const job = await statusRes.json();
+
+          progressFill.style.width = `${job.progress}%`;
+          stageText.textContent = job.stage;
+          percentText.textContent = `${job.progress}%`;
+
+          if (job.status === 'completed') {
+            clearInterval(interval);
+            renderBatchResults(job.items);
+          } else if (job.status === 'failed') {
+            clearInterval(interval);
+            alert('Falha no lote: ' + job.stage);
+          }
+        }, 2000);
+      } catch (err) {
+        alert('Erro ao iniciar lote: ' + err.message);
+      }
+    }
+
+    function renderBatchResults(items) {
+      const container = document.getElementById('batch-results-container');
+      const tbody = document.getElementById('batch-table-body');
+      tbody.innerHTML = '';
+
+      items.forEach(item => {
+        tbody.innerHTML += `
+          <tr>
+            <td>
+              <video src="${item.video_url}" style="width: 80px; height: 120px; object-fit: cover; border-radius: 6px;" controls></video>
+            </td>
+            <td><strong>${item.title}</strong></td>
+            <td>${item.duration}s</td>
+            <td>
+              <a href="${item.video_url}" download class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px;">⬇️ Baixar</a>
+            </td>
+          </tr>
+        `;
+      });
+      container.classList.remove('hidden');
+    }
+
+    window.onload = initApp;
+  </script>
+</body>
+</html>

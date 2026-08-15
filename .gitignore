@@ -12,7 +12,4 @@ __pycache__/
 
 # Arquivos Gerados
 output/
-
-# Ignorar vídeos grandes, manter estrutura da pasta (opcional)
-# assets/backgrounds/*.mp4
-# assets/backgrounds/*.mov
+assets/backgrounds/cache/

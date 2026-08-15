@@ -1,121 +1,233 @@
 import os
 import random
-import re
-from typing import List, Dict, Any
+from typing import List, Optional, Tuple
+import PIL.Image
+
+# Compatibilidade Pillow 10+ com MoviePy 1.0.3
+if not hasattr(PIL.Image, "ANTIALIAS"):
+    PIL.Image.ANTIALIAS = PIL.Image.Resampling.LANCZOS
+
 from moviepy.editor import (
-    VideoFileClip,
     AudioFileClip,
-    TextClip,
-    CompositeVideoClip,
     ColorClip,
+    CompositeAudioClip,
+    CompositeVideoClip,
+    VideoFileClip,
+    concatenate_videoclips,
 )
 
 from src.interfaces import IVideoComposer
-
-
-def parse_srt(srt_file: str) -> List[Dict[str, Any]]:
-    """Extrai tempos e palavras de um arquivo SRT."""
-    subs = []
-    with open(srt_file, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    blocks = content.strip().split("\n\n")
-    for block in blocks:
-        lines = block.split("\n")
-        if len(lines) >= 3:
-            time_line = lines[1]
-            text_line = " ".join(lines[2:])
-            m = re.match(
-                r"(\d{2}:\d{2}:\d{2},\d{3})\s-->\s(\d{2}:\d{2}:\d{2},\d{3})", time_line
-            )
-            if m:
-                start_str, end_str = m.groups()
-                start_time = _time_to_sec(start_str)
-                end_time = _time_to_sec(end_str)
-                subs.append(
-                    {"start": start_time, "end": end_time, "text": text_line.strip()}
-                )
-    return subs
-
-
-def _time_to_sec(t_str: str) -> float:
-    """Converte tempo SRT (HH:MM:SS,MMM) para segundos."""
-    h, m, s = t_str.split(":")
-    s, ms = s.split(",")
-    return int(h) * 3600 + int(m) * 60 + int(s) + int(ms) / 1000.0
+from src.models import AudioResult, ScriptResult, VideoConfig
+from src.subtitles import HormoziSubtitleRenderer
 
 
 class MoviePyVideoComposer(IVideoComposer):
+    """Compositor de vídeo avançado com suporte a B-Roll dinâmico, legendas Hormozi e BGM Ducking."""
+
     def compose(
-        self, audio_path: str, subs_path: str, bg_folder: str, output_path: str
-    ) -> None:
-        print("Iniciando composição do vídeo...")
-        audio_clip = AudioFileClip(audio_path)
-        audio_duration = audio_clip.duration
+        self,
+        script: ScriptResult,
+        audio: AudioResult,
+        bg_files: List[str],
+        config: VideoConfig,
+        output_path: str,
+    ) -> str:
+        """Renderiza o vídeo final unindo mídia de apoio, locução, trilha sonora e legendas."""
+        os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+        total_duration = audio.duration
 
-        bg_clip = self._get_background_clip(bg_folder, audio_duration)
+        print(f"🎬 Iniciando composição do vídeo ({config.aspect_ratio} - {total_duration:.1f}s)...")
 
-        text_clips = self._create_text_clips(subs_path, bg_clip.size)
-
-        final_video = CompositeVideoClip([bg_clip] + text_clips)
-        final_video = final_video.set_audio(audio_clip)
-
-        print(f"Renderizando vídeo final em {output_path}...")
-        final_video.write_videofile(
-            output_path, fps=30, codec="libx264", audio_codec="aac"
+        # 1. Preparar o clipe de fundo (B-Roll cortado ou em loop)
+        bg_clip = self._prepare_background(
+            bg_files=bg_files,
+            target_duration=total_duration,
+            target_size=(config.width, config.height),
+            darken_opacity=config.darken_opacity,
         )
-        print("Vídeo renderizado com sucesso!")
 
-    def _get_background_clip(
-        self, bg_folder: str, duration: float
-    ) -> VideoFileClip | ColorClip:
-        bg_files = []
-        if os.path.exists(bg_folder):
-            bg_files = [
-                os.path.join(bg_folder, f)
-                for f in os.listdir(bg_folder)
-                if f.endswith((".mp4", ".mov"))
+        # 2. Renderizar camadas de legendas dinâmicas estilo Hormozi
+        subtitle_renderer = HormoziSubtitleRenderer(config)
+        subtitle_clips = subtitle_renderer.create_subtitle_clips(
+            words=audio.words,
+            video_size=(config.width, config.height),
+        )
+
+        # 3. Barra de progresso inferior (se habilitada)
+        extra_clips = []
+        if config.progress_bar:
+            progress_clip = self._create_progress_bar(
+                duration=total_duration,
+                width=config.width,
+                height=config.height,
+                color=config.highlight_color,
+            )
+            extra_clips.append(progress_clip)
+
+        # 4. Compositar todas as camadas visuais
+        all_visual_clips = [bg_clip] + extra_clips + subtitle_clips
+        final_video = CompositeVideoClip(
+            all_visual_clips,
+            size=(config.width, config.height),
+        ).set_duration(total_duration)
+
+        # 5. Mixagem de áudio (Locução + Trilha Sonora com Ducking)
+        final_audio = self._mix_audio(
+            voice_audio_path=audio.audio_path,
+            total_duration=total_duration,
+            bgm_name=config.bgm_track,
+            bgm_volume=config.bgm_volume,
+        )
+        final_video = final_video.set_audio(final_audio)
+
+        # 6. Renderizar arquivo final em disco
+        print(f"🚀 Renderizando arquivo final em {output_path}...")
+        final_video.write_videofile(
+            output_path,
+            fps=config.fps,
+            codec="libx264",
+            audio_codec="aac",
+            threads=4,
+            preset="fast",
+            logger=None,
+        )
+
+        # Fechar clips para liberar recursos de memória
+        try:
+            final_video.close()
+            final_audio.close()
+        except Exception:
+            pass
+
+        print(f"✅ Vídeo gerado com sucesso: {output_path}")
+        return output_path
+
+    def _prepare_background(
+        self,
+        bg_files: List[str],
+        target_duration: float,
+        target_size: Tuple[int, int],
+        darken_opacity: float,
+    ) -> CompositeVideoClip:
+        target_w, target_h = target_size
+        valid_files = [f for f in bg_files if os.path.exists(f)]
+
+        if not valid_files:
+            base_clip = ColorClip(size=target_size, color=(20, 20, 25)).set_duration(target_duration)
+            return base_clip
+
+        # Se houver múltiplos arquivos de B-Roll, faz cortes a cada 4-6 segundos
+        clip_segments = []
+        segment_duration = 5.0
+        remaining = target_duration
+        file_idx = 0
+
+        while remaining > 0:
+            dur = min(segment_duration, remaining)
+            fpath = valid_files[file_idx % len(valid_files)]
+            file_idx += 1
+
+            raw_clip = VideoFileClip(fpath)
+            # Corta um trecho aleatório ou inicial
+            start_t = 0.0
+            if raw_clip.duration > dur + 1.0:
+                start_t = random.uniform(0, max(0.1, raw_clip.duration - dur - 0.5))
+
+            sub = raw_clip.subclip(start_t, start_t + dur)
+            scaled = self._crop_and_resize(sub, target_w, target_h)
+            clip_segments.append(scaled)
+            remaining -= dur
+
+        if len(clip_segments) == 1:
+            bg_video = clip_segments[0]
+        else:
+            bg_video = concatenate_videoclips(clip_segments, method="compose")
+
+        bg_video = bg_video.set_duration(target_duration)
+
+        # Camada escura de contraste para leitura de legendas
+        dark_overlay = (
+            ColorClip(size=target_size, color=(0, 0, 0))
+            .set_opacity(darken_opacity)
+            .set_duration(target_duration)
+        )
+
+        return CompositeVideoClip([bg_video, dark_overlay])
+
+    def _crop_and_resize(
+        self, clip: VideoFileClip, target_w: int, target_h: int
+    ) -> VideoFileClip:
+        w, h = clip.size
+        target_ratio = target_w / target_h
+        current_ratio = w / h
+
+        if current_ratio > target_ratio:
+            new_w = int(h * target_ratio)
+            x_center = w / 2
+            clip = clip.crop(x1=int(x_center - new_w / 2), width=new_w, y1=0, height=h)
+        else:
+            new_h = int(w / target_ratio)
+            y_center = h / 2
+            clip = clip.crop(x1=0, width=w, y1=int(y_center - new_h / 2), height=new_h)
+
+        return clip.resize((target_w, target_h))
+
+    def _mix_audio(
+        self,
+        voice_audio_path: str,
+        total_duration: float,
+        bgm_name: Optional[str],
+        bgm_volume: float,
+    ) -> CompositeAudioClip:
+        voice_clip = AudioFileClip(voice_audio_path)
+
+        bgm_clip = None
+        if bgm_name:
+            possible_paths = [
+                os.path.join("assets/music", f"{bgm_name}.wav"),
+                os.path.join("assets/music", f"{bgm_name}.mp3"),
+                os.path.join("assets/music", bgm_name),
             ]
+            for p in possible_paths:
+                if os.path.exists(p):
+                    try:
+                        raw_bgm = AudioFileClip(p)
+                        if raw_bgm.duration < total_duration:
+                            from moviepy.audio.fx.all import audio_loop
+                            raw_bgm = audio_loop(raw_bgm, duration=total_duration)
+                        else:
+                            raw_bgm = raw_bgm.subclip(0, total_duration)
 
-        if bg_files:
-            bg_file = random.choice(bg_files)
-            bg_clip = VideoFileClip(bg_file)
+                        bgm_clip = raw_bgm.volumex(bgm_volume)
+                        break
+                    except Exception as e:
+                        print(f"Aviso ao carregar música {bgm_name}: {e}")
+                        break
 
-            if bg_clip.duration < duration:
-                from moviepy.video.fx.all import loop
+        if bgm_clip:
+            return CompositeAudioClip([bgm_clip, voice_clip]).set_duration(total_duration)
+        return voice_clip
 
-                bg_clip = loop(bg_clip, duration=duration)
-            else:
-                bg_clip = bg_clip.subclip(0, duration)
+    def _create_progress_bar(
+        self, duration: float, width: int, height: int, color: str
+    ):
+        """Cria uma barra de progresso horizontal fina no rodapé do vídeo."""
+        from moviepy.editor import VideoClip
+        import numpy as np
 
-            darken_clip = (
-                ColorClip(size=bg_clip.size, color=(0, 0, 0))
-                .set_opacity(0.4)
-                .set_duration(duration)
-            )
-            return CompositeVideoClip([bg_clip, darken_clip])
+        hex_val = color.lstrip("#")
+        rgb = tuple(int(hex_val[i : i + 2], 16) for i in (0, 2, 4))
+        bar_h = 6
 
-        print("Nenhum vídeo de fundo encontrado, usando fundo sólido.")
-        return ColorClip(size=(1080, 1920), color=(30, 30, 30)).set_duration(duration)
+        def make_frame(t):
+            progress = min(1.0, max(0.0, t / duration))
+            current_w = max(1, int(width * progress))
+            frame = np.zeros((bar_h, width, 3), dtype=np.uint8)
+            frame[:, :current_w, :] = rgb
+            return frame
 
-    def _create_text_clips(self, subs_path: str, video_size: tuple) -> List[TextClip]:
-        subs = parse_srt(subs_path)
-        text_clips = []
-
-        for sub in subs:
-            txt_clip = TextClip(
-                sub["text"],
-                fontsize=90,
-                color="white",
-                font="Arial-Bold",
-                stroke_color="black",
-                stroke_width=2,
-                method="caption",
-                size=(video_size[0] * 0.8, None),
-                align="center",
-            )
-            txt_clip = txt_clip.set_start(sub["start"]).set_end(sub["end"])
-            txt_clip = txt_clip.set_position(("center", "center"))
-            text_clips.append(txt_clip)
-
-        return text_clips
+        return (
+            VideoClip(make_frame, duration=duration)
+            .set_position((0, height - bar_h))
+            .set_duration(duration)
+        )
