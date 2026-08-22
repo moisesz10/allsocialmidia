@@ -6,7 +6,7 @@ from google import genai
 from google.genai import types
 
 from src.interfaces import IScriptGenerator
-from src.models import ScriptResult
+from src.models import ScriptResult, YouTubeContentPackage
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +14,7 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     "stoic_philosophy": {
         "name": "Filosofia Estóica & Sabedoria",
         "system": (
-            "Você é um criador de conteúdo viral especialista em Filosofia Estóica, Marco Aurélio e reflexões profundas. "
-            "Crie um roteiro magnético e curto para TikTok/Reels/Shorts."
+            "Você é um criador de conteúdo especialista no YouTube (Shorts e Vídeos Longos) sobre Filosofia Estóica, Marco Aurélio e reflexões profundas. "
         ),
         "default_topic": "o poder do silêncio e o controle das emoções",
         "b_roll_fallback": ["ancient statue", "dark storm clouds", "lone mountain fog", "ocean waves crashing"],
@@ -23,7 +22,7 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     "curiosities": {
         "name": "Curiosidades & Fatos Inacreditáveis",
         "system": (
-            "Você é um criador de vídeos de curiosidades rápidas que viralizam em segundos. "
+            "Você é um criador de vídeos de curiosidades para o YouTube. "
             "Comece com uma pergunta que quebre o padrão cognitivo do espectador."
         ),
         "default_topic": "um fato bizarro sobre o oceano profundo que quase ninguém conhece",
@@ -32,7 +31,7 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     "stories_mystery": {
         "name": "Micro-Histórias & Mistério",
         "system": (
-            "Você é um narrador de micro-histórias de mistério e suspense com reviravolta final. "
+            "Você é um narrador de histórias de mistério e suspense no YouTube com reviravoltas finais. "
             "Prenda a atenção desde a primeira sílaba com atmosfera sombria."
         ),
         "default_topic": "um enigma não resolvido do século passado",
@@ -41,7 +40,7 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     "motivation": {
         "name": "Motivação & Disciplina Brutal",
         "system": (
-            "Você é um mentor de alta performance e autodisciplina. "
+            "Você é um mentor de alta performance no YouTube. "
             "Use uma linguagem direta, sem filtros, focada em foco e superação."
         ),
         "default_topic": "porque a consistência silenciosa vence o talento barulhento",
@@ -50,7 +49,7 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     "tech_future": {
         "name": "Tecnologia & Futuro",
         "system": (
-            "Você é um especialista em inovação tecnológica, IA e tendências futuras. "
+            "Você é um especialista em inovação tecnológica, IA e tendências futuras no YouTube. "
             "Explique de forma visual e instigante como o mundo está mudando."
         ),
         "default_topic": "como a inteligência artificial vai transformar o trabalho em 2 anos",
@@ -59,7 +58,7 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     "finance_wealth": {
         "name": "Finanças & Mentalidade de Riqueza",
         "system": (
-            "Você é um estrategista de finanças e investimentos para jovens ambiciosos. "
+            "Você é um estrategista de finanças e investimentos no YouTube. "
             "Ensine uma lição prática sobre dinheiro e liberdade financeira."
         ),
         "default_topic": "a regra dos 3 passos que os ricos seguem para nunca perder dinheiro",
@@ -67,48 +66,39 @@ NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
     },
 }
 
-FALLBACK_SCRIPTS: Dict[str, ScriptResult] = {
-    "stoic_philosophy": ScriptResult(
-        niche="stoic_philosophy",
-        topic="controle emocional",
-        hook="Você não pode controlar o que acontece ao seu redor.",
-        body="Mas tem poder absoluto sobre como reage a cada acontecimento. A sua paz interior é o seu maior superpoder. Não a entregue a ninguém de graça.",
-        cta="Siga para fortalecer sua mente todos os dias.",
-        full_text="Você não pode controlar o que acontece ao seu redor. Mas tem poder absoluto sobre como reage a cada acontecimento. A sua paz interior é o seu maior superpoder. Não a entregue a ninguém de graça. Siga para fortalecer sua mente todos os dias.",
-        title="O Poder do Autocontrole Estoico",
-        description="A sua mente é a sua única fortaleza inabalável. 🏛️\n\n#estoicismo #filosofia #sabedoria #desenvolvimentopessoal #mindset",
-        hashtags=["#estoicismo", "#filosofia", "#sabedoria", "#mentalidade", "#foco"],
-        b_roll_keywords=["ancient roman statue", "dramatic storm clouds", "ocean waves dark"],
-    ),
-    "curiosities": ScriptResult(
-        niche="curiosities",
-        topic="profundezas do oceano",
-        hook="Você sabia que nós conhecemos mais sobre o espaço do que sobre nossos próprios oceanos?",
-        body="Mais de 80 por cento do fundo do mar permanece inexplorado e na escuridão total. Existem criaturas gigantescas que nunca viram a luz do sol.",
-        cta="Comente o que você acha que existe lá embaixo!",
-        full_text="Você sabia que nós conhecemos mais sobre o espaço do que sobre nossos próprios oceanos? Mais de 80 por cento do fundo do mar permanece inexplorado e na escuridão total. Existem criaturas gigantescas que nunca viram a luz do sol. Comente o que você acha que existe lá embaixo!",
-        title="O Segredo Macabro dos Oceanos",
-        description="O que realmente se esconde no abismo marinho? 🌊👁️\n\n#curiosidades #fatosdesconhecidos #ciencia #oceano #misterio",
-        hashtags=["#curiosidades", "#fatoscuriosos", "#oceano", "#misterios", "#planeta"],
-        b_roll_keywords=["deep dark ocean", "underwater abyss glow", "mysterious sea creatures"],
-    ),
-    "motivation": ScriptResult(
-        niche="motivation",
-        topic="disciplina diária",
-        hook="O mundo não se importa com a sua motivação temporária.",
-        body="O que define seu sucesso é o que você faz nos dias em que não tem vontade de levantar. A disciplina vence qualquer desculpa.",
-        cta="Salve este vídeo para quando precisar lembrar quem você é.",
-        full_text="O mundo não se importa com a sua motivação temporária. O que define seu sucesso é o que você faz nos dias em que não tem vontade de levantar. A disciplina vence qualquer desculpa. Salve este vídeo para quando precisar lembrar quem você é.",
-        title="A Disciplina Silenciosa",
-        description="Faça o que precisa ser feito, especialmente quando for difícil. 🔥\n\n#motivacao #disciplina #foco #sucesso #treino",
-        hashtags=["#motivacao", "#disciplina", "#foco", "#mindsetdesucesso", "#superacao"],
-        b_roll_keywords=["intense gym workout", "running sunrise dark", "dramatic city night"],
+FALLBACK_PACKAGES: Dict[str, YouTubeContentPackage] = {
+    "stoic_philosophy": YouTubeContentPackage(
+        short_script=ScriptResult(
+            niche="stoic_philosophy",
+            topic="controle emocional",
+            hook="Você não pode controlar o que acontece ao seu redor.",
+            body="Mas tem poder absoluto sobre como reage. A sua paz interior é o seu maior superpoder.",
+            cta="Assista ao vídeo completo no canal para entender.",
+            full_text="Você não pode controlar o que acontece ao seu redor. Mas tem poder absoluto sobre como reage. A sua paz interior é o seu maior superpoder. Assista ao vídeo completo no canal para entender.",
+            title="O Poder do Autocontrole Estoico",
+            description="A sua mente é a sua única fortaleza inabalável. Assista ao vídeo completo! #estoicismo #filosofia #sabedoria #youtube",
+            video_type="short",
+            hashtags=["#estoicismo", "#filosofia", "#sabedoria", "#youtube"],
+            b_roll_keywords=["ancient roman statue", "dramatic storm clouds"],
+        ),
+        long_script=ScriptResult(
+            niche="stoic_philosophy",
+            topic="controle emocional",
+            hook="Hoje vamos explorar o verdadeiro significado do poder sobre si mesmo.",
+            body="A filosofia estoica nos ensina que não somos perturbados pelas coisas, mas pela visão que temos delas. Epicteto, um ex-escravo que se tornou um dos maiores filósofos de Roma, disse que apenas os tolos se enfurecem com as circunstâncias externas. O vídeo de hoje mergulha na prática da dicotomia do controle...",
+            cta="Se inscreva no canal para mais reflexões profundas.",
+            full_text="Hoje vamos explorar o verdadeiro significado do poder sobre si mesmo. A filosofia estoica nos ensina que não somos perturbados pelas coisas, mas pela visão que temos delas. Epicteto, um ex-escravo que se tornou um dos maiores filósofos de Roma, disse que apenas os tolos se enfurecem com as circunstâncias externas. O vídeo de hoje mergulha na prática da dicotomia do controle. Se inscreva no canal para mais reflexões profundas.",
+            title="Como ter Controle Emocional - Filosofia Estoica",
+            description="Descubra o segredo do controle emocional com a filosofia estoica. Inscreva-se! #estoicismo #foco",
+            video_type="long",
+            hashtags=["#estoicismo", "#filosofia", "#desenvolvimentopessoal"],
+            b_roll_keywords=["ancient roman statue", "ocean waves dark", "lone figure walking"],
+        )
     ),
 }
 
-
 class GeminiScriptGenerator(IScriptGenerator):
-    """Gerador de roteiros inteligentes multi-nicho com Gemini API."""
+    """Gerador de pacotes de conteúdo para YouTube (Shorts e Vídeos Longos) com Gemini API."""
 
     def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.5-flash"):
         self.api_key = api_key
@@ -120,29 +110,44 @@ class GeminiScriptGenerator(IScriptGenerator):
         niche: str = "stoic_philosophy",
         topic: Optional[str] = None,
         language: str = "pt-BR",
-    ) -> ScriptResult:
-        """Gera um roteiro estruturado com gancho, corpo, chamada para ação e metadados."""
+    ) -> YouTubeContentPackage:
+        """Gera um pacote com roteiro de Short e roteiro de Vídeo Longo interligados."""
         niche_info = NICHE_PROMPTS.get(niche, NICHE_PROMPTS["stoic_philosophy"])
         chosen_topic = topic or niche_info["default_topic"]
 
         if not self.client:
-            logger.warning("Gemini Client não inicializado. Usando roteiro de backup de alta qualidade.")
-            return self._get_fallback_script(niche, chosen_topic)
+            logger.warning("Gemini Client não inicializado. Usando pacote de backup.")
+            return self._get_fallback_package(niche, chosen_topic)
 
         prompt = (
-            f"Você é o diretor de criação de uma produtora de vídeos curtos (Reels, TikTok, Shorts).\n"
-            f"Gere um roteiro impactante no nicho: '{niche_info['name']}'.\n"
+            f"Você é o diretor de criação de um canal de sucesso exclusivo no YouTube.\n"
+            f"O objetivo é gerar um pacote de conteúdo contendo 1 YouTube Short (Teaser) e 1 Vídeo Longo para o canal.\n"
+            f"Nicho: '{niche_info['name']}'.\n"
             f"Tema: '{chosen_topic}'.\n"
             f"Idioma: {language}.\n\n"
+            f"DIRETRIZES:\n"
+            f"- O Short deve ser curto, magnético e terminar com uma chamada forte convidando o público a assistir o vídeo longo no canal.\n"
+            f"- O Vídeo Longo deve aprofundar o tema com introdução envolvente, desenvolvimento e conclusão.\n\n"
             f"ESTRUTURA OBRIGATÓRIA (responda estritamente em formato JSON válido):\n"
             f"{{\n"
-            f'  "hook": "Uma frase inicial magnética e intrigante de até 10 palavras que pare o scroll",\n'
-            f'  "body": "Corpo da mensagem direto, fluido e poderoso com 30 a 50 palavras",\n'
-            f'  "cta": "Chamada para ação curta incentivando curtir, comentar ou seguir (máx 10 palavras)",\n'
-            f'  "title": "Título viral de 3 a 7 palavras",\n'
-            f'  "description": "Legenda completa do post com 2 parágrafos curtos para Instagram/TikTok",\n'
-            f'  "hashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5"],\n'
-            f'  "b_roll_keywords": ["keyword 1 in english", "keyword 2 in english", "keyword 3 in english"]\n'
+            f'  "short": {{\n'
+            f'    "hook": "Frase magnética do short (até 10 palavras)",\n'
+            f'    "body": "Corpo do short com 30 a 50 palavras",\n'
+            f'    "cta": "Chamada convidando pro vídeo longo no canal (máx 10 palavras)",\n'
+            f'    "title": "Título viral do short",\n'
+            f'    "description": "Legenda curta do short",\n'
+            f'    "hashtags": ["#tag1", "#shorts"],\n'
+            f'    "b_roll_keywords": ["keyword 1", "keyword 2"]\n'
+            f'  }},\n'
+            f'  "long": {{\n'
+            f'    "hook": "Introdução forte do vídeo longo (até 20 palavras)",\n'
+            f'    "body": "Desenvolvimento aprofundado do tema com 150 a 250 palavras",\n'
+            f'    "cta": "Chamada para inscrição e like no canal",\n'
+            f'    "title": "Título pesquisável do vídeo longo",\n'
+            f'    "description": "Legenda/descrição completa para o vídeo longo do YouTube",\n'
+            f'    "hashtags": ["#tag1", "#tag2"],\n'
+            f'    "b_roll_keywords": ["keyword 1", "keyword 2"]\n'
+            f'  }}\n'
             f"}}\n"
         )
 
@@ -156,41 +161,78 @@ class GeminiScriptGenerator(IScriptGenerator):
                 ),
             )
             data = json.loads(response.text)
-            hook = data.get("hook", "").strip()
-            body = data.get("body", "").strip()
-            cta = data.get("cta", "").strip()
-            full_text = f"{hook} {body} {cta}".strip()
-
-            return ScriptResult(
+            
+            # Short Script
+            short_data = data.get("short", {})
+            s_hook = short_data.get("hook", "").strip()
+            s_body = short_data.get("body", "").strip()
+            s_cta = short_data.get("cta", "").strip()
+            s_full_text = f"{s_hook} {s_body} {s_cta}".strip()
+            short_script = ScriptResult(
                 niche=niche,
                 topic=chosen_topic,
-                hook=hook,
-                body=body,
-                cta=cta,
-                full_text=full_text,
-                title=data.get("title", f"Vídeo de {niche_info['name']}"),
-                description=data.get("description", full_text),
-                hashtags=data.get("hashtags", ["#shorts", "#viral", "#reels"]),
-                b_roll_keywords=data.get("b_roll_keywords", niche_info["b_roll_fallback"]),
+                hook=s_hook,
+                body=s_body,
+                cta=s_cta,
+                full_text=s_full_text,
+                title=short_data.get("title", f"Teaser: {niche_info['name']}"),
+                description=short_data.get("description", s_full_text),
+                video_type="short",
+                hashtags=short_data.get("hashtags", ["#shorts", "#youtube"]),
+                b_roll_keywords=short_data.get("b_roll_keywords", niche_info["b_roll_fallback"]),
             )
+
+            # Long Script
+            long_data = data.get("long", {})
+            l_hook = long_data.get("hook", "").strip()
+            l_body = long_data.get("body", "").strip()
+            l_cta = long_data.get("cta", "").strip()
+            l_full_text = f"{l_hook} {l_body} {l_cta}".strip()
+            long_script = ScriptResult(
+                niche=niche,
+                topic=chosen_topic,
+                hook=l_hook,
+                body=l_body,
+                cta=l_cta,
+                full_text=l_full_text,
+                title=long_data.get("title", f"Vídeo Completo: {niche_info['name']}"),
+                description=long_data.get("description", l_full_text),
+                video_type="long",
+                hashtags=long_data.get("hashtags", ["#youtube"]),
+                b_roll_keywords=long_data.get("b_roll_keywords", niche_info["b_roll_fallback"]),
+            )
+
+            return YouTubeContentPackage(short_script=short_script, long_script=long_script)
+            
         except Exception as err:
-            logger.error(f"Erro ao gerar com Gemini: {err}. Usando roteiro de backup.")
-            return self._get_fallback_script(niche, chosen_topic)
+            logger.error(f"Erro ao gerar com Gemini: {err}. Usando pacote de backup.")
+            return self._get_fallback_package(niche, chosen_topic)
 
-    def _get_fallback_script(self, niche: str, topic: str) -> ScriptResult:
-        if niche in FALLBACK_SCRIPTS:
-            base = FALLBACK_SCRIPTS[niche]
-            return base
+    def _get_fallback_package(self, niche: str, topic: str) -> YouTubeContentPackage:
+        if niche in FALLBACK_PACKAGES:
+            return FALLBACK_PACKAGES[niche]
 
-        return ScriptResult(
+        # Backup Genérico
+        short_script = ScriptResult(
             niche=niche,
             topic=topic,
-            hook="Existe um segredo que poucas pessoas estão dispostas a admitir.",
-            body="Quando você decide parar de dar desculpas e foca cem por cento naquilo que pode controlar, seus resultados mudam radicalmente.",
-            cta="Siga o perfil para mais conteúdos como esse.",
-            full_text="Existe um segredo que poucas pessoas estão dispostas a admitir. Quando você decide parar de dar desculpas e foca cem por cento naquilo que pode controlar, seus resultados mudam radicalmente. Siga o perfil para mais conteúdos como esse.",
-            title="A Verdade Sobre o Sucesso",
-            description="Foco total naquilo que você controla. 🔥\n\n#foco #disciplina #mentalidade #evoluir #shorts",
-            hashtags=["#foco", "#disciplina", "#mentalidade", "#shorts", "#reels"],
-            b_roll_keywords=["dark aesthetic minimal", "lone figure walking dark", "stormy sky timelapsed"],
+            hook="Um segredo mudará sua vida.",
+            body="Aprenda a focar naquilo que importa. O resto é distração.",
+            cta="Veja o vídeo completo no canal.",
+            full_text="Um segredo mudará sua vida. Aprenda a focar naquilo que importa. O resto é distração. Veja o vídeo completo no canal.",
+            title="Segredo Revelado",
+            description="Assista ao vídeo completo! #shorts",
+            video_type="short"
         )
+        long_script = ScriptResult(
+            niche=niche,
+            topic=topic,
+            hook="Hoje vamos aprofundar um segredo de sucesso.",
+            body="A chave para grandes realizações está na sua rotina. Pessoas bem sucedidas...",
+            cta="Inscreva-se no canal para mais conteúdos.",
+            full_text="Hoje vamos aprofundar um segredo de sucesso. A chave para grandes realizações está na sua rotina. Pessoas bem sucedidas... Inscreva-se no canal para mais conteúdos.",
+            title="Como alcançar o sucesso - Completo",
+            description="Tudo o que você precisa saber sobre o sucesso. Inscreva-se! #sucesso #foco",
+            video_type="long"
+        )
+        return YouTubeContentPackage(short_script=short_script, long_script=long_script)

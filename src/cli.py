@@ -98,13 +98,13 @@ def interactive_mode(studio: SocialMediaVideoStudio):
     console.print("\n[bold green]🚀 Iniciando linha de produção...[/bold green]\n")
 
     if count == 1:
-        result = studio.produce_single_video(
+        results = studio.produce_youtube_package(
             niche=chosen_niche,
             topic=chosen_topic,
             voice=chosen_voice,
             config=config,
         )
-        show_result_table([result])
+        show_result_table(results)
     else:
         results = studio.produce_batch(
             count=count,
@@ -201,10 +201,10 @@ def run_cli():
         )
         show_result_table(results)
     else:
-        result = studio.produce_single_video(
+        results = studio.produce_youtube_package(
             niche=args.niche,
             topic=args.topic,
             voice=args.voice,
             config=config,
         )
-        show_result_table([result])
+        show_result_table(results)

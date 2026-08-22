@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Callable, List, Optional
 
 from src.interfaces import IAudioGenerator, IMediaFetcher, IScriptGenerator, IVideoComposer
-from src.models import AudioResult, ProductionJobResult, ScriptResult, VideoConfig
+from src.models import AudioResult, ProductionJobResult, ScriptResult, VideoConfig, YouTubeContentPackage
 
 
 class SocialMediaVideoStudio:
@@ -24,7 +24,7 @@ class SocialMediaVideoStudio:
         self.media_fetcher = media_fetcher
         self.video_comp = video_comp
 
-    def produce_single_video(
+    def produce_youtube_package(
         self,
         niche: str = "stoic_philosophy",
         topic: Optional[str] = None,
@@ -33,8 +33,8 @@ class SocialMediaVideoStudio:
         config: Optional[VideoConfig] = None,
         output_dir: str = "output",
         progress_callback: Optional[Callable[[str, int], None]] = None,
-    ) -> ProductionJobResult:
-        """Executa o pipeline completo de produção de um único vídeo com empacotamento de metadados."""
+    ) -> List[ProductionJobResult]:
+        """Executa o pipeline completo de produção de um pacote YouTube (Short + Longo)."""
         def notify(stage: str, percent: int):
             if progress_callback:
                 progress_callback(stage, percent)
@@ -42,98 +42,95 @@ class SocialMediaVideoStudio:
 
         config = config or VideoConfig()
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        video_folder = os.path.join(output_dir, f"video_{timestamp}")
-        os.makedirs(video_folder, exist_ok=True)
+        package_folder = os.path.join(output_dir, f"package_{timestamp}")
+        os.makedirs(package_folder, exist_ok=True)
 
-        # 1. Geração de Conteúdo e Roteiro
-        notify("Gerando roteiro estratégico com IA...", 15)
-        script: ScriptResult = self.script_gen.generate(niche=niche, topic=topic)
-        print(f"\n💡 [Título Gerado]: {script.title}")
-        print(f"🪝 [Gancho]: {script.hook}")
-        print(f"📄 [Texto Completo]:\n{script.full_text}\n")
+        notify("Gerando pacote estratégico de roteiros com IA...", 10)
+        package: YouTubeContentPackage = self.script_gen.generate(niche=niche, topic=topic)
+        
+        results = []
+        
+        # Helper interno para renderizar cada roteiro
+        def process_script(script: ScriptResult, v_type: str, percent_start: int):
+            print(f"\n💡 [Título {v_type.upper()}]: {script.title}")
+            print(f"🪝 [Gancho]: {script.hook}")
+            
+            # Ajustando aspect ratio
+            current_config = VideoConfig(
+                aspect_ratio="9:16" if script.video_type == "short" else "16:9",
+                width=1080 if script.video_type == "short" else 1920,
+                height=1920 if script.video_type == "short" else 1080,
+                highlight_color=config.highlight_color,
+                bgm_track=config.bgm_track,
+            )
 
-        # 2. Geração de Voz Neural e Minutagem de Palavras
-        notify("Gerando locução neural e minutagem de legendas...", 35)
-        audio_path = os.path.join(video_folder, "narration.mp3")
-        srt_path = os.path.join(video_folder, "subtitles.srt")
-        audio_result: AudioResult = self.audio_gen.generate(
-            text=script.full_text,
-            voice=voice,
-            rate=voice_rate,
-            output_audio=audio_path,
-            output_subs=srt_path,
-        )
+            notify(f"Gerando áudio ({v_type})...", percent_start + 5)
+            audio_path = os.path.join(package_folder, f"narration_{v_type}.mp3")
+            srt_path = os.path.join(package_folder, f"subtitles_{v_type}.srt")
+            audio_result = self.audio_gen.generate(
+                text=script.full_text,
+                voice=voice,
+                rate=voice_rate,
+                output_audio=audio_path,
+                output_subs=srt_path,
+            )
 
-        # 3. Busca de B-Roll / Vídeos de Apoio
-        notify("Buscando e preparando vídeos de fundo (B-Roll)...", 55)
-        orientation = "landscape" if config.aspect_ratio == "16:9" else "portrait"
-        bg_files = self.media_fetcher.fetch_backgrounds(
-            keywords=script.b_roll_keywords,
-            count=3,
-            orientation=orientation,
-        )
+            notify(f"Buscando B-Roll ({v_type})...", percent_start + 15)
+            orientation = "landscape" if current_config.aspect_ratio == "16:9" else "portrait"
+            bg_files = self.media_fetcher.fetch_backgrounds(
+                keywords=script.b_roll_keywords,
+                count=3,
+                orientation=orientation,
+            )
 
-        # 4. Composição e Renderização Final do Vídeo
-        notify("Compositando vídeo, áudio ducking e legendas Hormozi...", 75)
-        final_video_path = os.path.join(video_folder, "final_video.mp4")
-        self.video_comp.compose(
-            script=script,
-            audio=audio_result,
-            bg_files=bg_files,
-            config=config,
-            output_path=final_video_path,
-        )
+            notify(f"Renderizando vídeo ({v_type})...", percent_start + 25)
+            final_video_path = os.path.join(package_folder, f"final_video_{v_type}.mp4")
+            self.video_comp.compose(
+                script=script,
+                audio=audio_result,
+                bg_files=bg_files,
+                config=current_config,
+                output_path=final_video_path,
+            )
 
-        # 5. Empacotamento de Metadados para Publicação
-        notify("Empacotando metadados e kit de publicação...", 90)
-        metadata_path = os.path.join(video_folder, "post_metadata.json")
-        copy_path = os.path.join(video_folder, "social_copy.txt")
+            notify(f"Empacotando metadados ({v_type})...", percent_start + 35)
+            metadata_path = os.path.join(package_folder, f"post_metadata_{v_type}.json")
+            copy_path = os.path.join(package_folder, f"social_copy_{v_type}.txt")
 
-        metadata_dict = {
-            "title": script.title,
-            "niche": script.niche,
-            "topic": script.topic,
-            "hook": script.hook,
-            "body": script.body,
-            "cta": script.cta,
-            "full_text": script.full_text,
-            "description": script.description,
-            "hashtags": script.hashtags,
-            "duration_seconds": round(audio_result.duration, 2),
-            "voice": voice,
-            "bgm_track": config.bgm_track,
-            "aspect_ratio": config.aspect_ratio,
-            "created_at": datetime.now().isoformat(),
-            "files": {
-                "video": "final_video.mp4",
-                "audio": "narration.mp3",
-                "subtitles": "subtitles.srt",
-            },
-        }
+            metadata_dict = {
+                "title": script.title,
+                "niche": script.niche,
+                "topic": script.topic,
+                "hook": script.hook,
+                "full_text": script.full_text,
+                "description": script.description,
+                "hashtags": script.hashtags,
+                "video_type": script.video_type,
+                "duration_seconds": round(audio_result.duration, 2),
+                "voice": voice,
+                "aspect_ratio": current_config.aspect_ratio,
+            }
 
-        with open(metadata_path, "w", encoding="utf-8") as f:
-            json.dump(metadata_dict, f, ensure_ascii=False, indent=2)
+            with open(metadata_path, "w", encoding="utf-8") as f:
+                json.dump(metadata_dict, f, ensure_ascii=False, indent=2)
 
-        # Arquivo de texto pronto para copiar e colar nas redes
-        hashtags_str = " ".join(script.hashtags)
-        copy_content = (
-            f"📌 TÍTULO DO VÍDEO:\n{script.title}\n\n"
-            f"📝 LEGENDA / COPY:\n{script.description}\n\n"
-            f"🏷️ HASHTAGS:\n{hashtags_str}\n\n"
-            f"--------------------------------------------------\n"
-            f"🎙️ Roteiro Narrado:\n{script.full_text}\n"
-        )
-        with open(copy_path, "w", encoding="utf-8") as f:
-            f.write(copy_content)
+            with open(copy_path, "w", encoding="utf-8") as f:
+                f.write(f"📌 TÍTULO:\n{script.title}\n\n📝 COPY:\n{script.description}\n\n🎙️ TEXTO:\n{script.full_text}\n")
 
-        notify("Produção finalizada com sucesso!", 100)
+            return ProductionJobResult(
+                video_path=final_video_path,
+                script=script,
+                duration=audio_result.duration,
+                metadata_path=metadata_path,
+            )
 
-        return ProductionJobResult(
-            video_path=final_video_path,
-            script=script,
-            duration=audio_result.duration,
-            metadata_path=metadata_path,
-        )
+        # Processar os dois
+        short_result = process_script(package.short_script, "short", 10)
+        long_result = process_script(package.long_script, "long", 50)
+        
+        results.extend([short_result, long_result])
+        notify("Pacote YouTube finalizado com sucesso!", 100)
+        return results
 
     def produce_batch(
         self,
@@ -168,7 +165,7 @@ class SocialMediaVideoStudio:
             if custom_topics and i < len(custom_topics):
                 topic = custom_topics[i]
 
-            result = self.produce_single_video(
+            package_results = self.produce_youtube_package(
                 niche=niche,
                 topic=topic,
                 voice=voice,
@@ -176,18 +173,19 @@ class SocialMediaVideoStudio:
                 config=config,
                 output_dir=batch_dir,
             )
-            results.append(result)
+            results.extend(package_results)
 
-            # Adicionar à lista para exportar CSV de agendamento
-            csv_rows.append({
-                "video_id": f"video_{i + 1:02d}",
-                "titulo": result.script.title,
-                "nicho": result.script.niche,
-                "duracao_segundos": f"{result.duration:.1f}",
-                "legenda_post": result.script.description.replace("\n", " "),
-                "hashtags": " ".join(result.script.hashtags),
-                "caminho_arquivo_video": result.video_path,
-            })
+            for result in package_results:
+                # Adicionar à lista para exportar CSV de agendamento
+                csv_rows.append({
+                    "video_id": f"video_{i + 1:02d}_{result.script.video_type}",
+                    "titulo": result.script.title,
+                    "nicho": result.script.niche,
+                    "duracao_segundos": f"{result.duration:.1f}",
+                    "legenda_post": result.script.description.replace("\n", " "),
+                    "hashtags": " ".join(result.script.hashtags),
+                    "caminho_arquivo_video": result.video_path,
+                })
 
             # Pequena pausa entre gerações para evitar throttling
             if i < count - 1:

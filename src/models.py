@@ -21,8 +21,16 @@ class ScriptResult:
     full_text: str
     title: str
     description: str
+    video_type: str = "short"  # "short" ou "long"
     hashtags: List[str] = field(default_factory=list)
     b_roll_keywords: List[str] = field(default_factory=list)
+
+
+@dataclass
+class YouTubeContentPackage:
+    """Pacote contendo o roteiro do vídeo curto e do vídeo longo."""
+    short_script: ScriptResult
+    long_script: ScriptResult
 
 
 @dataclass

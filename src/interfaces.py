@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from src.models import ScriptResult, AudioResult, VideoConfig
+from src.models import YouTubeContentPackage, ScriptResult, AudioResult, VideoConfig
 
 
 class IScriptGenerator(ABC):
@@ -12,8 +12,8 @@ class IScriptGenerator(ABC):
         niche: str = "stoic_philosophy",
         topic: Optional[str] = None,
         language: str = "pt-BR",
-    ) -> ScriptResult:
-        """Gera um roteiro estruturado com hook, corpo, CTA e metadados."""
+    ) -> YouTubeContentPackage:
+        """Gera roteiros estruturados (Short e Longo) com hook, corpo, CTA e metadados."""
         pass
 
 
