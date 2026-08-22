@@ -5,6 +5,7 @@ from typing import List, Optional
 @dataclass
 class WordTiming:
     """Representa a minutagem de uma palavra individual falada."""
+
     word: str
     start: float
     end: float
@@ -13,6 +14,7 @@ class WordTiming:
 @dataclass
 class ScriptResult:
     """Representa o roteiro completo estruturado com metadados para mídias sociais."""
+
     niche: str
     topic: str
     hook: str
@@ -29,6 +31,7 @@ class ScriptResult:
 @dataclass
 class YouTubeContentPackage:
     """Pacote contendo o roteiro do vídeo curto e do vídeo longo."""
+
     short_script: ScriptResult
     long_script: ScriptResult
 
@@ -36,6 +39,7 @@ class YouTubeContentPackage:
 @dataclass
 class AudioResult:
     """Resultado do processamento de áudio com timestamps precisos."""
+
     audio_path: str
     srt_path: str
     duration: float
@@ -45,6 +49,7 @@ class AudioResult:
 @dataclass
 class VideoConfig:
     """Configurações visuais e sonoras de composição do vídeo."""
+
     aspect_ratio: str = "9:16"  # "9:16", "16:9", "1:1"
     width: int = 1080
     height: int = 1920
@@ -66,6 +71,7 @@ class VideoConfig:
 @dataclass
 class ProductionJobResult:
     """Relatório final de produção de um vídeo."""
+
     video_path: str
     script: ScriptResult
     duration: float

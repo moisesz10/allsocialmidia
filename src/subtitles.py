@@ -1,5 +1,6 @@
 import os
 from typing import List, Tuple
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
@@ -8,7 +9,7 @@ if not hasattr(Image, "ANTIALIAS"):
 
 from moviepy.editor import ImageClip
 
-from src.models import WordTiming, VideoConfig
+from src.models import VideoConfig, WordTiming
 
 
 class HormoziSubtitleRenderer:
@@ -41,9 +42,7 @@ class HormoziSubtitleRenderer:
 
         return ImageFont.load_default()
 
-    def create_subtitle_clips(
-        self, words: List[WordTiming], video_size: Tuple[int, int]
-    ) -> List[ImageClip]:
+    def create_subtitle_clips(self, words: List[WordTiming], video_size: Tuple[int, int]) -> List[ImageClip]:
         """Transforma a lista de palavras cronometradas em clips visuais de alta retenção."""
         if not words:
             return []
@@ -118,7 +117,7 @@ class HormoziSubtitleRenderer:
         stroke_w = self.config.stroke_width
         stroke_color = self.config.stroke_color
 
-        for idx, (w_text, w_width) in enumerate(zip(words_text, word_widths)):
+        for idx, (w_text, w_width) in enumerate(zip(words_text, word_widths, strict=False)):
             is_active = idx == active_index
             fill_color = self.config.highlight_color if is_active else self.config.text_color
 

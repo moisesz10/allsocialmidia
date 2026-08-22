@@ -93,9 +93,10 @@ FALLBACK_PACKAGES: Dict[str, YouTubeContentPackage] = {
             video_type="long",
             hashtags=["#estoicismo", "#filosofia", "#desenvolvimentopessoal"],
             b_roll_keywords=["ancient roman statue", "ocean waves dark", "lone figure walking"],
-        )
+        ),
     ),
 }
+
 
 class GeminiScriptGenerator(IScriptGenerator):
     """Gerador de pacotes de conteúdo para YouTube (Shorts e Vídeos Longos) com Gemini API."""
@@ -161,7 +162,7 @@ class GeminiScriptGenerator(IScriptGenerator):
                 ),
             )
             data = json.loads(response.text)
-            
+
             # Short Script
             short_data = data.get("short", {})
             s_hook = short_data.get("hook", "").strip()
@@ -203,7 +204,7 @@ class GeminiScriptGenerator(IScriptGenerator):
             )
 
             return YouTubeContentPackage(short_script=short_script, long_script=long_script)
-            
+
         except Exception as err:
             logger.error(f"Erro ao gerar com Gemini: {err}. Usando pacote de backup.")
             return self._get_fallback_package(niche, chosen_topic)
@@ -222,7 +223,7 @@ class GeminiScriptGenerator(IScriptGenerator):
             full_text="Um segredo mudará sua vida. Aprenda a focar naquilo que importa. O resto é distração. Veja o vídeo completo no canal.",
             title="Segredo Revelado",
             description="Assista ao vídeo completo! #shorts",
-            video_type="short"
+            video_type="short",
         )
         long_script = ScriptResult(
             niche=niche,
@@ -233,6 +234,6 @@ class GeminiScriptGenerator(IScriptGenerator):
             full_text="Hoje vamos aprofundar um segredo de sucesso. A chave para grandes realizações está na sua rotina. Pessoas bem sucedidas... Inscreva-se no canal para mais conteúdos.",
             title="Como alcançar o sucesso - Completo",
             description="Tudo o que você precisa saber sobre o sucesso. Inscreva-se! #sucesso #foco",
-            video_type="long"
+            video_type="long",
         )
         return YouTubeContentPackage(short_script=short_script, long_script=long_script)

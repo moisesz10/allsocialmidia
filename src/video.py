@@ -1,6 +1,7 @@
 import os
 import random
 from typing import List, Optional, Tuple
+
 import PIL.Image
 
 # Compatibilidade Pillow 10+ com MoviePy 1.0.3
@@ -147,16 +148,12 @@ class MoviePyVideoComposer(IVideoComposer):
 
         # Camada escura de contraste para leitura de legendas
         dark_overlay = (
-            ColorClip(size=target_size, color=(0, 0, 0))
-            .set_opacity(darken_opacity)
-            .set_duration(target_duration)
+            ColorClip(size=target_size, color=(0, 0, 0)).set_opacity(darken_opacity).set_duration(target_duration)
         )
 
         return CompositeVideoClip([bg_video, dark_overlay])
 
-    def _crop_and_resize(
-        self, clip: VideoFileClip, target_w: int, target_h: int
-    ) -> VideoFileClip:
+    def _crop_and_resize(self, clip: VideoFileClip, target_w: int, target_h: int) -> VideoFileClip:
         w, h = clip.size
         target_ratio = target_w / target_h
         current_ratio = w / h
@@ -194,6 +191,7 @@ class MoviePyVideoComposer(IVideoComposer):
                         raw_bgm = AudioFileClip(p)
                         if raw_bgm.duration < total_duration:
                             from moviepy.audio.fx.all import audio_loop
+
                             raw_bgm = audio_loop(raw_bgm, duration=total_duration)
                         else:
                             raw_bgm = raw_bgm.subclip(0, total_duration)
@@ -208,12 +206,10 @@ class MoviePyVideoComposer(IVideoComposer):
             return CompositeAudioClip([bgm_clip, voice_clip]).set_duration(total_duration)
         return voice_clip
 
-    def _create_progress_bar(
-        self, duration: float, width: int, height: int, color: str
-    ):
+    def _create_progress_bar(self, duration: float, width: int, height: int, color: str):
         """Cria uma barra de progresso horizontal fina no rodapé do vídeo."""
-        from moviepy.editor import VideoClip
         import numpy as np
+        from moviepy.editor import VideoClip
 
         hex_val = color.lstrip("#")
         rgb = tuple(int(hex_val[i : i + 2], 16) for i in (0, 2, 4))
@@ -226,8 +222,4 @@ class MoviePyVideoComposer(IVideoComposer):
             frame[:, :current_w, :] = rgb
             return frame
 
-        return (
-            VideoClip(make_frame, duration=duration)
-            .set_position((0, height - bar_h))
-            .set_duration(duration)
-        )
+        return VideoClip(make_frame, duration=duration).set_position((0, height - bar_h)).set_duration(duration)

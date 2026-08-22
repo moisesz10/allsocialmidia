@@ -1,15 +1,15 @@
 import argparse
 import os
 import sys
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Prompt, IntPrompt
+from rich.prompt import IntPrompt, Prompt
 from rich.table import Table
 
-from src.audio import EdgeTTSAudioGenerator, AVAILABLE_VOICES
-from src.content import GeminiScriptGenerator, NICHE_PROMPTS
+from src.audio import AVAILABLE_VOICES, EdgeTTSAudioGenerator
+from src.content import NICHE_PROMPTS, GeminiScriptGenerator
 from src.media_fetcher import SmartMediaFetcher
 from src.models import VideoConfig
 from src.orchestrator import SocialMediaVideoStudio
@@ -57,7 +57,9 @@ def interactive_mode(studio: SocialMediaVideoStudio):
     chosen_voice = voices[max(0, min(len(voices) - 1, voice_idx - 1))]
 
     console.print("\n[bold yellow]📐 Proporção do Vídeo (Aspect Ratio):[/bold yellow]")
-    console.print("  [cyan]1.[/cyan] 9:16 (TikTok, Instagram Reels, YouTube Shorts) [bold green][Recomendado][/bold green]")
+    console.print(
+        "  [cyan]1.[/cyan] 9:16 (TikTok, Instagram Reels, YouTube Shorts) [bold green][Recomendado][/bold green]"
+    )
     console.print("  [cyan]2.[/cyan] 16:9 (YouTube Widescreen, Twitter/X)")
     console.print("  [cyan]3.[/cyan] 1:1 (Feed Instagram, LinkedIn)")
 
@@ -132,7 +134,9 @@ def show_result_table(results):
 
     console.print("\n")
     console.print(table)
-    console.print("\n[bold green]🎉 Todos os arquivos e kits de publicação estão prontos na pasta output/![/bold green]\n")
+    console.print(
+        "\n[bold green]🎉 Todos os arquivos e kits de publicação estão prontos na pasta output/![/bold green]\n"
+    )
 
 
 def build_studio() -> SocialMediaVideoStudio:
@@ -170,6 +174,7 @@ def run_cli():
 
     if args.web:
         from src.web.app import start_web_studio
+
         start_web_studio(port=args.port)
         return
 

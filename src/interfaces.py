@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from src.models import YouTubeContentPackage, ScriptResult, AudioResult, VideoConfig
+
+from src.models import AudioResult, ScriptResult, VideoConfig, YouTubeContentPackage
 
 
 class IScriptGenerator(ABC):

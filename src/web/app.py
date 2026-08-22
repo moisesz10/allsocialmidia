@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from src.audio import AVAILABLE_VOICES, EdgeTTSAudioGenerator
-from src.content import GeminiScriptGenerator, NICHE_PROMPTS
+from src.content import NICHE_PROMPTS, GeminiScriptGenerator
 from src.media_fetcher import SmartMediaFetcher
 from src.models import ScriptResult, VideoConfig
 from src.orchestrator import SocialMediaVideoStudio
@@ -107,10 +107,7 @@ def get_meta():
                     music_files.append(name)
 
     return {
-        "niches": [
-            {"id": k, "name": v["name"], "default_topic": v["default_topic"]}
-            for k, v in NICHE_PROMPTS.items()
-        ],
+        "niches": [{"id": k, "name": v["name"], "default_topic": v["default_topic"]} for k, v in NICHE_PROMPTS.items()],
         "voices": [{"id": k, "name": v} for k, v in AVAILABLE_VOICES.items()],
         "bgm_tracks": music_files,
         "aspect_ratios": [
@@ -306,13 +303,15 @@ async def _run_batch_task(job_id: str, req: BatchProduceRequest):
 
         items = []
         for r in results:
-            items.append({
-                "video_url": "/" + r.video_path,
-                "title": r.script.title,
-                "duration": round(r.duration, 1),
-                "description": r.script.description,
-                "hashtags": r.script.hashtags,
-            })
+            items.append(
+                {
+                    "video_url": "/" + r.video_path,
+                    "title": r.script.title,
+                    "duration": round(r.duration, 1),
+                    "description": r.script.description,
+                    "hashtags": r.script.hashtags,
+                }
+            )
 
         JOBS[job_id]["status"] = "completed"
         JOBS[job_id]["progress"] = 100

@@ -8,7 +8,6 @@ from moviepy.editor import AudioFileClip
 from src.interfaces import IAudioGenerator
 from src.models import AudioResult, WordTiming
 
-
 AVAILABLE_VOICES = {
     "pt-BR-AntonioNeural": "Antonio (PT-BR, Profundo & Sério)",
     "pt-BR-FranciscaNeural": "Francisca (PT-BR, Clara & Envolvente)",
@@ -110,9 +109,7 @@ class EdgeTTSAudioGenerator(IAudioGenerator):
                                 )
                             )
                     elif chunk["type"] == "SentenceBoundary":
-                        sentence_words = self._estimate_word_timings(
-                            chunk["text"], start_sec, duration_sec
-                        )
+                        sentence_words = self._estimate_word_timings(chunk["text"], start_sec, duration_sec)
                         words_timing.extend(sentence_words)
 
         # Salva o arquivo SRT gerado pelo edge-tts
@@ -125,9 +122,7 @@ class EdgeTTSAudioGenerator(IAudioGenerator):
 
         return words_timing
 
-    def _estimate_word_timings(
-        self, text: str, start_sec: float, duration_sec: float
-    ) -> List[WordTiming]:
+    def _estimate_word_timings(self, text: str, start_sec: float, duration_sec: float) -> List[WordTiming]:
         """Interpola a minutagem de cada palavra dentro de uma frase falada proporcionalmente ao tamanho."""
         raw_words = text.strip().split()
         if not raw_words or duration_sec <= 0:

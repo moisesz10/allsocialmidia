@@ -1,4 +1,5 @@
 import sys
+
 from src.cli import run_cli
 
 

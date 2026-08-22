@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Callable, List, Optional
 
 from src.interfaces import IAudioGenerator, IMediaFetcher, IScriptGenerator, IVideoComposer
-from src.models import AudioResult, ProductionJobResult, ScriptResult, VideoConfig, YouTubeContentPackage
+from src.models import ProductionJobResult, ScriptResult, VideoConfig, YouTubeContentPackage
 
 
 class SocialMediaVideoStudio:
@@ -35,6 +35,7 @@ class SocialMediaVideoStudio:
         progress_callback: Optional[Callable[[str, int], None]] = None,
     ) -> List[ProductionJobResult]:
         """Executa o pipeline completo de produção de um pacote YouTube (Short + Longo)."""
+
         def notify(stage: str, percent: int):
             if progress_callback:
                 progress_callback(stage, percent)
@@ -47,14 +48,14 @@ class SocialMediaVideoStudio:
 
         notify("Gerando pacote estratégico de roteiros com IA...", 10)
         package: YouTubeContentPackage = self.script_gen.generate(niche=niche, topic=topic)
-        
+
         results = []
-        
+
         # Helper interno para renderizar cada roteiro
         def process_script(script: ScriptResult, v_type: str, percent_start: int):
             print(f"\n💡 [Título {v_type.upper()}]: {script.title}")
             print(f"🪝 [Gancho]: {script.hook}")
-            
+
             # Ajustando aspect ratio
             current_config = VideoConfig(
                 aspect_ratio="9:16" if script.video_type == "short" else "16:9",
@@ -115,7 +116,9 @@ class SocialMediaVideoStudio:
                 json.dump(metadata_dict, f, ensure_ascii=False, indent=2)
 
             with open(copy_path, "w", encoding="utf-8") as f:
-                f.write(f"📌 TÍTULO:\n{script.title}\n\n📝 COPY:\n{script.description}\n\n🎙️ TEXTO:\n{script.full_text}\n")
+                f.write(
+                    f"📌 TÍTULO:\n{script.title}\n\n📝 COPY:\n{script.description}\n\n🎙️ TEXTO:\n{script.full_text}\n"
+                )
 
             return ProductionJobResult(
                 video_path=final_video_path,
@@ -127,7 +130,7 @@ class SocialMediaVideoStudio:
         # Processar os dois
         short_result = process_script(package.short_script, "short", 10)
         long_result = process_script(package.long_script, "long", 50)
-        
+
         results.extend([short_result, long_result])
         notify("Pacote YouTube finalizado com sucesso!", 100)
         return results
@@ -177,15 +180,17 @@ class SocialMediaVideoStudio:
 
             for result in package_results:
                 # Adicionar à lista para exportar CSV de agendamento
-                csv_rows.append({
-                    "video_id": f"video_{i + 1:02d}_{result.script.video_type}",
-                    "titulo": result.script.title,
-                    "nicho": result.script.niche,
-                    "duracao_segundos": f"{result.duration:.1f}",
-                    "legenda_post": result.script.description.replace("\n", " "),
-                    "hashtags": " ".join(result.script.hashtags),
-                    "caminho_arquivo_video": result.video_path,
-                })
+                csv_rows.append(
+                    {
+                        "video_id": f"video_{i + 1:02d}_{result.script.video_type}",
+                        "titulo": result.script.title,
+                        "nicho": result.script.niche,
+                        "duracao_segundos": f"{result.duration:.1f}",
+                        "legenda_post": result.script.description.replace("\n", " "),
+                        "hashtags": " ".join(result.script.hashtags),
+                        "caminho_arquivo_video": result.video_path,
+                    }
+                )
 
             # Pequena pausa entre gerações para evitar throttling
             if i < count - 1:

@@ -2,8 +2,9 @@ import logging
 import os
 import random
 from typing import List, Optional
-import requests
+
 import numpy as np
+import requests
 
 from src.interfaces import IMediaFetcher
 
