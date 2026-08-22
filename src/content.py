@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from google import genai
 from google.genai import types
@@ -10,7 +10,7 @@ from src.models import ScriptResult, YouTubeContentPackage
 
 logger = logging.getLogger(__name__)
 
-NICHE_PROMPTS: Dict[str, Dict[str, str]] = {
+NICHE_PROMPTS: Dict[str, Any] = {
     "stoic_philosophy": {
         "name": "Filosofia Estóica & Sabedoria",
         "system": (
@@ -161,7 +161,10 @@ class GeminiScriptGenerator(IScriptGenerator):
                     temperature=0.75,
                 ),
             )
-            data = json.loads(response.text)
+            text_response = response.text
+            if not text_response:
+                raise ValueError("Resposta da IA vazia.")
+            data = json.loads(text_response)
 
             # Short Script
             short_data = data.get("short", {})
