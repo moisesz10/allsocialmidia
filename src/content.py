@@ -6,7 +6,7 @@ from google import genai
 from google.genai import types
 
 from src.interfaces import IScriptGenerator
-from src.models import ScriptResult, YouTubeContentPackage
+from src.models import CommunityPost, ScriptResult, YouTubeContentPackage
 
 logger = logging.getLogger(__name__)
 
@@ -94,6 +94,11 @@ FALLBACK_PACKAGES: Dict[str, YouTubeContentPackage] = {
             hashtags=["#estoicismo", "#filosofia", "#desenvolvimentopessoal"],
             b_roll_keywords=["ancient roman statue", "ocean waves dark", "lone figure walking"],
         ),
+        community_post=CommunityPost(
+            content="O que te tira do sério com mais frequência hoje em dia? Epicteto nos lembra que não somos afetados pelas coisas, mas pela forma como as enxergamos. Reflita sobre isso.",
+            poll_options=["O trânsito/imprevistos", "Comentários dos outros", "Pressão no trabalho", "Minha própria mente"],
+            image_prompt="A calm, dark marble statue of Epictetus looking down thoughtfully, subtle golden lighting."
+        ),
     ),
 }
 
@@ -148,6 +153,11 @@ class GeminiScriptGenerator(IScriptGenerator):
             f'    "description": "Legenda/descrição completa para o vídeo longo do YouTube",\n'
             f'    "hashtags": ["#tag1", "#tag2"],\n'
             f'    "b_roll_keywords": ["keyword 1", "keyword 2"]\n'
+            f'  }},\n'
+            f'  "community": {{\n'
+            f'    "content": "Texto envolvente para aba Comunidade fazendo uma pergunta sobre o tema",\n'
+            f'    "poll_options": ["Opção A", "Opção B", "Opção C", "Opção D"],\n'
+            f'    "image_prompt": "Prompt em inglês para gerar uma imagem complementar (opcional)"\n'
             f'  }}\n'
             f"}}\n"
         )
@@ -206,7 +216,17 @@ class GeminiScriptGenerator(IScriptGenerator):
                 b_roll_keywords=long_data.get("b_roll_keywords", niche_info["b_roll_fallback"]),
             )
 
-            return YouTubeContentPackage(short_script=short_script, long_script=long_script)
+            # Community Post
+            community_data = data.get("community")
+            community_post = None
+            if community_data:
+                community_post = CommunityPost(
+                    content=community_data.get("content", ""),
+                    poll_options=community_data.get("poll_options"),
+                    image_prompt=community_data.get("image_prompt"),
+                )
+
+            return YouTubeContentPackage(short_script=short_script, long_script=long_script, community_post=community_post)
 
         except Exception as err:
             logger.error(f"Erro ao gerar com Gemini: {err}. Usando pacote de backup.")
@@ -239,4 +259,9 @@ class GeminiScriptGenerator(IScriptGenerator):
             description="Tudo o que você precisa saber sobre o sucesso. Inscreva-se! #sucesso #foco",
             video_type="long",
         )
-        return YouTubeContentPackage(short_script=short_script, long_script=long_script)
+        community_post = CommunityPost(
+            content="Qual é o seu maior desafio diário para manter o foco? Comente abaixo!",
+            poll_options=["Procrastinação", "Redes Sociais", "Cansaço", "Falta de metas"],
+            image_prompt="A focused person working in a dark room with a single desk lamp."
+        )
+        return YouTubeContentPackage(short_script=short_script, long_script=long_script, community_post=community_post)

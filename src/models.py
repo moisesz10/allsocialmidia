@@ -1,6 +1,14 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+@dataclass
+class CommunityPost:
+    """Postagem para a aba Comunidade do YouTube."""
+    content: str
+    poll_options: Optional[List[str]] = None
+    image_prompt: Optional[str] = None
+
+
 
 @dataclass
 class WordTiming:
@@ -30,10 +38,11 @@ class ScriptResult:
 
 @dataclass
 class YouTubeContentPackage:
-    """Pacote contendo o roteiro do vídeo curto e do vídeo longo."""
+    """Pacote contendo o roteiro do vídeo curto e do vídeo longo, além do post na comunidade."""
 
     short_script: ScriptResult
     long_script: ScriptResult
+    community_post: Optional[CommunityPost] = None
 
 
 @dataclass
