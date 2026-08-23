@@ -106,7 +106,7 @@ FALLBACK_PACKAGES: Dict[str, YouTubeContentPackage] = {
 class GeminiScriptGenerator(IScriptGenerator):
     """Gerador de pacotes de conteúdo para YouTube (Shorts e Vídeos Longos) com Gemini API."""
 
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.5-flash"):
+    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-3.6-flash"):
         self.api_key = api_key
         self.model_name = model_name
         self.client = genai.Client(api_key=api_key) if api_key and api_key != "sua_chave_api_aqui" else None
