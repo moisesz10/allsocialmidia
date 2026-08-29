@@ -8,24 +8,21 @@ def post_community(page, text, schedule_date, schedule_time, publish_now):
     print(f"\n📝 Preparando postagem...")
     
     try:
-        # Tenta encontrar a caixa de texto da comunidade
-        input_box = page.locator("div#contenteditable-root").first
         try:
-            input_box.wait_for(state="visible", timeout=10000)
-        except:
+            # Tenta encontrar a caixa de texto da comunidade
+            input_box = page.locator("div#contenteditable-root").first
+            input_box.click(force=True)
+            time.sleep(1)
+        except Exception:
             print("Caixa de texto não apareceu imediatamente. Tentando clicar no placeholder...")
-            try:
-                page.locator("ytd-backstage-post-creation-renderer").click()
-                time.sleep(2)
-            except:
-                pass
+            page.locator("ytd-backstage-post-creation-renderer #placeholder").click(force=True)
+            time.sleep(1)
+            input_box = page.locator("div#contenteditable-root").first
+            input_box.click(force=True)
             
-        input_box.click(force=True)
-        time.sleep(1)
-        
-        # Limpa e digita
+        # Limpa o texto caso tenha algo
         page.keyboard.press("Control+A")
-        page.keyboard.press("Delete")
+        page.keyboard.press("Backspace")
         
         # Digita o texto linha por linha para respeitar as quebras
         for line in text.split('\n'):
@@ -109,50 +106,39 @@ def run_bot(csv_path):
 
     with sync_playwright() as p:
         try:
-            print("🚀 Abrindo Chrome para automação com seu perfil logado...")
-            context = p.chromium.launch_persistent_context(
-                user_data_dir="/home/moises/work/allsocialmidia/chrome_profile",
-                channel="chrome",
-                headless=False,
-                args=["--no-sandbox", "--disable-setuid-sandbox"]
-            )
-            page = context.pages[0]
+            print("🚀 Conectando ao Chrome já aberto na porta 9222...")
+            browser = p.chromium.connect_over_cdp("http://127.0.0.1:9222")
+            context = browser.contexts[0]
             
-            print("🌍 Navegando para o YouTube Studio...")
-            page.goto("https://studio.youtube.com/")
-            
-            page.wait_for_selector("button#avatar-btn", timeout=30000)
-            
-            print("🌍 Capturando o arroba do canal...")
-            page.locator("button#avatar-btn").click()
-            time.sleep(2)
-            popup_text = page.locator("ytd-active-account-header-renderer").inner_text()
-            
-            import re
-            match = re.search(r'@[A-Za-z0-9_-]+', popup_text)
-            if match:
-                handle = match.group(0)
-                community_url = f"https://www.youtube.com/{handle}/community"
-                print(f"🔗 Handle encontrado: {handle}")
-                print(f"➡️ Acessando a guia comunidade: {community_url}")
-                page.goto(community_url)
-                page.wait_for_load_state("networkidle", timeout=60000)
-                time.sleep(5)
-            else:
-                print("❌ Não foi possível encontrar o handle (arroba) do canal.")
+            page = None
+            for p_ in context.pages:
+                if 'youtube.com' in p_.url:
+                    page = p_
+                    break
+                    
+            if not page:
+                print("❌ Nenhuma aba do YouTube aberta! Por favor, abra a aba da sua Comunidade antes de rodar.")
                 return
                 
+            print("🔗 Aba encontrada! Iniciando automação na aba...")
+            page.bring_to_front()
+            time.sleep(2)
+            
         except Exception as e:
-            print(f"Erro ao iniciar Chrome ou acessar a página: {e}")
+            print(f"Erro ao conectar na porta 9222: {e}")
+            print("Certifique-se de iniciar o Chrome com --remote-debugging-port=9222")
             return
         
         for i, post in enumerate(posts):
-            is_first_day = (i < 2) # As duas primeiras postagens são hoje (agora)
+            is_first_day = (i < 2)
             
             date_str = post['data']
             time_str = post['hora']
             text = post['texto']
             
+            print(f"\n📝 Iniciando postagem {i+1}/20...")
+            
+            # Chama a função que digita e agenda
             post_community(page, text, date_str, time_str, publish_now=is_first_day)
             
             # Recarrega a página para o próximo post para limpar o formulário
