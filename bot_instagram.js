@@ -29,7 +29,7 @@ async function runInstagramBot() {
         if (!metaPage) {
             console.log("Aba do Meta não encontrada, abrindo...");
             metaPage = await browser.newPage();
-            await metaPage.goto("https://business.facebook.com/latest/home", { waitUntil: 'networkidle2', timeout: 60000 });
+            await metaPage.goto("https://business.facebook.com/latest/home", { waitUntil: 'domcontentloaded', timeout: 60000 });
         } else {
             console.log("Trazendo a aba do Meta para frente...");
             await metaPage.bringToFront();
@@ -49,142 +49,150 @@ async function runInstagramBot() {
             const row = records[i];
             console.log(`\nProcessando [${i+1}/${records.length}]: ${row.tipo} - ${row.data} às ${row.hora}`);
             
-            // Garantir que estamos na home
-            if (!metaPage.url().includes('/latest/home')) {
-                await metaPage.goto("https://business.facebook.com/latest/home", { waitUntil: 'networkidle2' });
-                await sleep(5000);
-            }
+            try {
+                // Garantir que estamos na home
+                if (!metaPage.url().includes('/latest/home')) {
+                    await metaPage.goto("https://business.facebook.com/latest/home", { waitUntil: 'domcontentloaded', timeout: 60000 });
+                    await sleep(5000);
+                }
 
-            // Seleciona "Create post" ou "Create reel"
-            const type = row.tipo.trim().toLowerCase();
-            let createBtns = [];
-            if (type === 'reel' || type === 'video') {
-                 createBtns = await metaPage.$$('::-p-text(Create reel)');
-            } else {
-                 createBtns = await metaPage.$$('::-p-text(Create post)');
-            }
-            
-            if (createBtns.length > 0) {
-                await createBtns[0].click();
-                console.log("Aguardando página de criação abrir...");
-                await sleep(8000);
-            } else {
-                console.log(`ERRO: Botão Create ${type} não encontrado.`);
-                continue;
-            }
-
-            // Faz o upload da mídia
-            console.log(`Enviando mídia: ${row.caminho_midia}`);
-            let addPhotoBtn = await metaPage.$$('::-p-text(Add photo)');
-            if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add video)');
-            if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add photo/video)');
-            
-            if (addPhotoBtn.length > 0) {
-                const fileChooserPromise = metaPage.waitForFileChooser({timeout: 5000}).catch(() => null);
-                await addPhotoBtn[0].click();
-                let fileChooser = await fileChooserPromise;
+                // Seleciona "Create post" ou "Create reel"
+                const type = row.tipo.trim().toLowerCase();
+                let createBtns = [];
+                if (type === 'reel' || type === 'video') {
+                     createBtns = await metaPage.$$('::-p-text(Create reel)');
+                } else {
+                     createBtns = await metaPage.$$('::-p-text(Create post)');
+                }
                 
-                if (!fileChooser) {
-                    const uploadDesktop = await metaPage.$$('::-p-text(Upload from desktop)');
-                    if (uploadDesktop.length > 0) {
-                        const [fc] = await Promise.all([
-                            metaPage.waitForFileChooser(),
-                            uploadDesktop[0].click(),
-                        ]);
-                        fileChooser = fc;
+                if (createBtns.length > 0) {
+                    await createBtns[0].click();
+                    console.log("Aguardando página de criação abrir...");
+                    await sleep(8000);
+                } else {
+                    console.log(`ERRO: Botão Create ${type} não encontrado.`);
+                    continue;
+                }
+
+                // Faz o upload da mídia
+                console.log(`Enviando mídia: ${row.caminho_midia}`);
+                let addPhotoBtn = await metaPage.$$('::-p-text(Add photo)');
+                if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add video)');
+                if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add Video)');
+                if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add photo/video)');
+                
+                if (addPhotoBtn.length > 0) {
+                    const fileChooserPromise = metaPage.waitForFileChooser({timeout: 5000}).catch(() => null);
+                    await addPhotoBtn[0].click();
+                    let fileChooser = await fileChooserPromise;
+                    
+                    if (!fileChooser) {
+                        const uploadDesktop = await metaPage.$$('::-p-text(Upload from desktop)');
+                        if (uploadDesktop.length > 0) {
+                            const [fc] = await Promise.all([
+                                metaPage.waitForFileChooser(),
+                                uploadDesktop[0].click(),
+                            ]);
+                            fileChooser = fc;
+                        }
+                    }
+                    
+                    if (fileChooser) {
+                        await fileChooser.accept([row.caminho_midia]);
+                        console.log("Upload em andamento. Aguardando 15s para garantir que o arquivo carregue...");
+                        await sleep(15000); // Dar tempo do facebook processar (vídeos podem demorar mais)
+                    }
+                } else {
+                    console.log("Botão de mídia não encontrado.");
+                }
+
+                // Texto (legenda)
+                console.log("Inserindo legenda...");
+                const textareas = await metaPage.$$('textarea');
+                if (textareas.length > 0) {
+                    await textareas[0].type(row.texto);
+                } else {
+                    const editableDiv = await metaPage.$('[contenteditable="true"]');
+                    if (editableDiv) {
+                        await editableDiv.type(row.texto);
+                    }
+                }
+
+                // Agendamento
+                console.log("Ativando agendamento (Set date and time)...");
+                const scheduleToggle = await metaPage.$$('::-p-text(Set date and time)');
+                if (scheduleToggle.length > 0) {
+                    await scheduleToggle[0].click();
+                    await sleep(2000);
+                }
+
+                // Inserir Data (no formato mm/dd/yyyy ou o aceito pela região do PC)
+                console.log(`Inserindo data: ${row.data}`);
+                const dateInputs = await metaPage.$$('input[placeholder*="yyyy"]');
+                if (dateInputs.length > 0) {
+                    await dateInputs[0].click({clickCount: 3}); 
+                    await dateInputs[0].press('Backspace');
+                    await dateInputs[0].type(row.data);
+                    await metaPage.keyboard.press('Enter');
+                    await sleep(1000);
+                }
+
+                // Inserir Hora (e.g. 10:00 AM)
+                console.log(`Inserindo hora: ${row.hora}`);
+                const inputs = await metaPage.$$('input');
+                let timeInput = null;
+                for (let j = 0; j < inputs.length; j++) {
+                    const val = await metaPage.evaluate(el => el.value, inputs[j]);
+                    if (val && (val.includes('AM') || val.includes('PM'))) {
+                        timeInput = inputs[j];
+                        break;
                     }
                 }
                 
-                if (fileChooser) {
-                    await fileChooser.accept([row.caminho_midia]);
-                    console.log("Upload em andamento. Aguardando 15s para garantir que o arquivo carregue...");
-                    await sleep(15000); // Dar tempo do facebook processar (vídeos podem demorar mais)
+                if (timeInput) {
+                    await timeInput.click({clickCount: 3});
+                    await timeInput.press('Backspace');
+                    await timeInput.type(row.hora);
+                    await metaPage.keyboard.press('Enter');
+                    await sleep(1000);
                 }
-            } else {
-                console.log("Botão de mídia não encontrado.");
-            }
 
-            // Texto (legenda)
-            console.log("Inserindo legenda...");
-            const textareas = await metaPage.$$('textarea');
-            if (textareas.length > 0) {
-                await textareas[0].type(row.texto);
-            } else {
-                const editableDiv = await metaPage.$('[contenteditable="true"]');
-                if (editableDiv) {
-                    await editableDiv.type(row.texto);
+                // Clicar em Schedule
+                console.log("Clicando no botão Final (Schedule)...");
+                const scheduleBtn = await metaPage.$$('::-p-text(Schedule)');
+                let clicked = false;
+                for (let btn of scheduleBtn) {
+                    const isButton = await metaPage.evaluate(el => el.tagName === 'DIV' && el.getAttribute('role') === 'button' || el.tagName === 'BUTTON', btn);
+                    if (isButton) {
+                        await btn.click();
+                        clicked = true;
+                        break;
+                    }
                 }
-            }
-
-            // Agendamento
-            console.log("Ativando agendamento (Set date and time)...");
-            const scheduleToggle = await metaPage.$$('::-p-text(Set date and time)');
-            if (scheduleToggle.length > 0) {
-                await scheduleToggle[0].click();
-                await sleep(2000);
-            }
-
-            // Inserir Data (no formato mm/dd/yyyy ou o aceito pela região do PC)
-            console.log(`Inserindo data: ${row.data}`);
-            const dateInputs = await metaPage.$$('input[placeholder*="yyyy"]');
-            if (dateInputs.length > 0) {
-                await dateInputs[0].click({clickCount: 3}); 
-                await dateInputs[0].press('Backspace');
-                await dateInputs[0].type(row.data);
-                await metaPage.keyboard.press('Enter');
-                await sleep(1000);
-            }
-
-            // Inserir Hora (e.g. 10:00 AM)
-            console.log(`Inserindo hora: ${row.hora}`);
-            const inputs = await metaPage.$$('input');
-            let timeInput = null;
-            for (let j = 0; j < inputs.length; j++) {
-                const val = await metaPage.evaluate(el => el.value, inputs[j]);
-                if (val && (val.includes('AM') || val.includes('PM'))) {
-                    timeInput = inputs[j];
-                    break;
+                if (!clicked && scheduleBtn.length > 0) {
+                    await scheduleBtn[scheduleBtn.length - 1].click();
                 }
-            }
-            
-            if (timeInput) {
-                await timeInput.click({clickCount: 3});
-                await timeInput.press('Backspace');
-                await timeInput.type(row.hora);
-                await metaPage.keyboard.press('Enter');
-                await sleep(1000);
-            }
 
-            // Clicar em Schedule
-            console.log("Clicando no botão Final (Schedule)...");
-            const scheduleBtn = await metaPage.$$('::-p-text(Schedule)');
-            let clicked = false;
-            for (let btn of scheduleBtn) {
-                const isButton = await metaPage.evaluate(el => el.tagName === 'DIV' && el.getAttribute('role') === 'button' || el.tagName === 'BUTTON', btn);
-                if (isButton) {
-                    await btn.click();
-                    clicked = true;
-                    break;
+                console.log("Aguardando post ser salvo no Planner (10s)...");
+                await sleep(10000);
+
+                // Fechar o modal "You scheduled a post..." se ele aparecer
+                const doneBtns2 = await metaPage.$$('::-p-text(Done)');
+                for (let btn of doneBtns2) {
+                     const isBtn = await metaPage.evaluate(el => el.tagName === 'DIV' && el.getAttribute('role') === 'button' || el.tagName === 'BUTTON', btn);
+                     if (isBtn) {
+                         await btn.click();
+                         await sleep(2000);
+                     }
                 }
+                
+                console.log(`Post [${i+1}] agendado com sucesso!\n`);
+            } catch (err) {
+                console.error(`Erro ao processar post [${i+1}]:`, err.message);
+                console.log("Tentando recarregar a home para o próximo post...");
+                await metaPage.goto("https://business.facebook.com/latest/home", { waitUntil: 'domcontentloaded' }).catch(() => {});
+                await sleep(5000);
             }
-            if (!clicked && scheduleBtn.length > 0) {
-                await scheduleBtn[scheduleBtn.length - 1].click();
-            }
-
-            console.log("Aguardando post ser salvo no Planner (10s)...");
-            await sleep(10000);
-
-            // Fechar o modal "You scheduled a post..." se ele aparecer
-            const doneBtns2 = await metaPage.$$('::-p-text(Done)');
-            for (let btn of doneBtns2) {
-                 const isBtn = await metaPage.evaluate(el => el.tagName === 'DIV' && el.getAttribute('role') === 'button' || el.tagName === 'BUTTON', btn);
-                 if (isBtn) {
-                     await btn.click();
-                     await sleep(2000);
-                 }
-            }
-            
-            console.log(`Post [${i+1}] agendado com sucesso!\n`);
         }
 
         console.log("Todos os posts foram agendados!");
