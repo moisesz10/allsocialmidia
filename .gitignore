@@ -13,3 +13,18 @@ __pycache__/
 # Arquivos Gerados
 output/
 assets/backgrounds/cache/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Debug and Logs
+chrome_profile/
+chrome.log
+*.png
+*.mp4
+*.html
+page_html.txt
+debug*.py
+debug*.js

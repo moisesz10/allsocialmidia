@@ -12,7 +12,7 @@ import os
 from datetime import datetime, timedelta
 from playwright.sync_api import sync_playwright
 
-CHANNEL_ID = "UC1hr6pLEGC8PN_Yh0T8ZOTA"
+CHANNEL_ID = "UCTF5YuHGPHAk5qX503vEiPV"
 UPLOAD_URL = f"https://studio.youtube.com/channel/{CHANNEL_ID}/videos/upload?d=ud"
 
 

@@ -1,0 +1,590 @@
+[
+  {
+    "tag": "SCRIPT",
+    "text": "if (window.ytcsi) {window.ytcsi.tick('ai', null, '');}"
+  },
+  {
+    "tag": "DIV",
+    "text": "Close"
+  },
+  {
+    "tag": "DIV",
+    "text": "Channel content"
+  },
+  {
+    "tag": "DIV",
+    "text": "Skip navigation"
+  },
+  {
+    "tag": "DIV",
+    "text": "Create"
+  },
+  {
+    "tag": "DIV",
+    "text": "Account"
+  },
+  {
+    "tag": "DIV",
+    "text": "Your channel"
+  },
+  {
+    "tag": "DIV",
+    "text": "O Estoico Moderno"
+  },
+  {
+    "tag": "DIV",
+    "text": "Dashboard"
+  },
+  {
+    "tag": "DIV",
+    "text": "Content"
+  },
+  {
+    "tag": "DIV",
+    "text": "Analytics"
+  },
+  {
+    "tag": "DIV",
+    "text": "Community"
+  },
+  {
+    "tag": "DIV",
+    "text": "Subtitles"
+  },
+  {
+    "tag": "DIV",
+    "text": "Content detection"
+  },
+  {
+    "tag": "DIV",
+    "text": "Earn"
+  },
+  {
+    "tag": "DIV",
+    "text": "Customization"
+  },
+  {
+    "tag": "DIV",
+    "text": "Audio library"
+  },
+  {
+    "tag": "DIV",
+    "text": "Settings"
+  },
+  {
+    "tag": "DIV",
+    "text": "Send feedback"
+  },
+  {
+    "tag": "H1",
+    "text": "Channel content"
+  },
+  {
+    "tag": "DIV",
+    "text": "Videos"
+  },
+  {
+    "tag": "YTCP-VE",
+    "text": "Shorts"
+  },
+  {
+    "tag": "YTCP-VE",
+    "text": "Live"
+  },
+  {
+    "tag": "YTCP-VE",
+    "text": "Posts"
+  },
+  {
+    "tag": "YTCP-VE",
+    "text": "Playlists"
+  },
+  {
+    "tag": "YTCP-VE",
+    "text": "Podcasts"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Promotions"
+  },
+  {
+    "tag": "YTCP-VE",
+    "text": "Collaborations"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Edit"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Add to playlist"
+  },
+  {
+    "tag": "SPAN",
+    "text": "More actions"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Video"
+  },
+  {
+    "tag": "YT-FORMATTED-STRING",
+    "text": "All videos uploaded to your channel"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Notices"
+  },
+  {
+    "tag": "YT-FORMATTED-STRING",
+    "text": "Any current or potential limitations to your video's reach, earnings or features"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Visibility"
+  },
+  {
+    "tag": "YT-FORMATTED-STRING",
+    "text": "How you set up who can view your videos"
+  },
+  {
+    "tag": "DIV",
+    "text": "Learn more"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Date"
+  },
+  {
+    "tag": "YT-FORMATTED-STRING",
+    "text": "Shows your uploaded, scheduled, or published date depending on your video’s status."
+  },
+  {
+    "tag": "SPAN",
+    "text": "Views"
+  },
+  {
+    "tag": "YT-FORMATTED-STRING",
+    "text": "How many times viewers watched your video. This number may fluctuate, especially for new videos"
+  },
+  {
+    "tag": "DIV",
+    "text": "Learn more"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Comments"
+  },
+  {
+    "tag": "YT-FORMATTED-STRING",
+    "text": "How many comments are on your video"
+  },
+  {
+    "tag": "DIV",
+    "text": "Learn more"
+  },
+  {
+    "tag": "DIV",
+    "text": "0:28"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Como ter Controle Emocional - Filosofia Estoica"
+  },
+  {
+    "tag": "DIV",
+    "text": "Descubra o segredo do controle emocional com a filosofia estoica. Inscreva-se! #estoicismo #foco\n\n#estoicismo #filosofia #desenvolvimentopessoal"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 29, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "DIV",
+    "text": "0:28"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Como ter Controle Emocional - Filosofia Estoica"
+  },
+  {
+    "tag": "DIV",
+    "text": "Descubra o segredo do controle emocional com a filosofia estoica. Inscreva-se! #estoicismo #foco\n\n#estoicismo #filosofia #desenvolvimentopessoal"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 29, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:20"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O PODER DO SILÊNCIO: Como Controlar Suas Emoções com o Estoicismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Neste vídeo, aprofundamos nos ensinamentos estóicos de Marco Aurélio e Sêneca para entender por que o silêncio é o seu maior poder. Aprenda a dominar suas emoções, evitar reações impulsivas e cultivar a paz mental em um mundo caótico.\n\n#Estoicismo #Autocontrole #Filosofia #DesenvolvimentoPessoal"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 29, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "DIV",
+    "text": "0:28"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Como ter Controle Emocional - Filosofia Estoica"
+  },
+  {
+    "tag": "DIV",
+    "text": "Descubra o segredo do controle emocional com a filosofia estoica. Inscreva-se! #estoicismo #foco\n\n#estoicismo #filosofia #desenvolvimentopessoal"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 29, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:10"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O Poder do Silêncio: Como Controlar Suas Emoções com o Estoicismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Neste vídeo aprofundado, exploramos como os ensinamentos da Filosofia Estóica, inspirados por Marco Aurélio e Sêneca, revelam o verdadeiro poder do silêncio no controle das emoções. Aprenda a não reagir por impulso, proteger sua paz de espírito e dominar sua mente diante do caos do dia a dia. Se você busca desenvolvimento pessoal, sabedoria prática e inteligência emocional, este conteúdo é para você.\n\n#Estoicismo #ControleEmocional #PoderDoSilencio #DesenvolvimentoPessoal #Filosofia"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 29, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:09"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O Poder Secreto do Silêncio: Como Controlar Suas Emoções com o Estoicismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Descubra como a filosofia estóica utiliza o silêncio estratégico como a ferramenta definitiva de controle emocional e inteligência interpessoal. Neste vídeo, exploraremos os ensinamentos de Marcus Aurélio, Sêneca e Epicteto para te ajudar a dominar suas reações, manter a calma em momentos de tensão e construir uma mentalidade inabalável.  📌 Capítulos do Vídeo: 00:00 - A armadilha da reação impulsiva 02:15 - O silêncio segundo os estóicos 05:40 - Como praticar o silêncio no dia a dia 08:30 - Con"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 29, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:11"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O PODER ABSOLUTO DO SILÊNCIO: Como Controlar Suas Emoções Segundo o Estoicismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Neste vídeo aprofundado, exploramos os ensinamentos estóicos sobre o poder do silêncio e como o domínio emocional pode transformar sua vida. Aprenda a não reagir às provocações, preservar sua paz mental e desenvolver uma força interior inabalável.\n\n#estoicismo #desenvolvimentopessoal #controleemocional #filosofiaestóica #autocontrole"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Public"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 27, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Published"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:20"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O Poder do Silêncio: Como os Estoicos Controlavam Suas Emoções"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aprenda com o estoicismo a usar o poder do silêncio para dominar suas emoções, vencer provocações e alcançar uma paz mental inabalável. Neste vídeo, exploramos os ensinamentos práticos de Marco Aurélio, Sêneca e Epicteto para aplicar o autocontrole na sua rotina.\n\n#estoicismo #filosofia #autocontrole #desenvolvimentopessoal #sabedoria"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Public"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 26, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Published"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:12"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O Poder do Silêncio: Como Dominar Suas Emoções com o Estoicismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aprenda a filosofia estoica para controlar suas emoções e usar o silêncio como uma ferramenta de poder e sabedoria. Descubra as lições de Marco Aurélio e Sêneca para manter a paz interior em qualquer situação.\n\n#estoicismo #filosofia #autocontrole #sabedoria"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Public"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 25, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Published"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:16"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O PODER DO SILÊNCIO: Como Controlar Suas Emoções com o Estoicismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aprenda a controlar suas emoções e nunca mais agir por impulso usando a sabedoria estóica dos grandes filósofos como Marco Aurélio e Sêneca. O silêncio é a sua maior força mental.\n\n#Estoicismo #ControleEmocional #Filosofia #Sabedoria"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Public"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 24, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Published"
+  },
+  {
+    "tag": "DIV",
+    "text": "1:03"
+  },
+  {
+    "tag": "SPAN",
+    "text": "O PODER DO SILÊNCIO: Como Controlar Suas Emoções com o Estoismo"
+  },
+  {
+    "tag": "DIV",
+    "text": "Neste vídeo, exploramos a filosofia estóica e como o poder do silêncio pode transformar a forma como você lida com provocações, ansiedade e inteligência emocional. Aprenda as lições de Marco Aurélio, Epicteto e Sêneca para ter o controle absoluto da sua mente.\n\n#estoismo #filosofia #autocontrole #inteligenciaemocional #silencio"
+  },
+  {
+    "tag": "DIV",
+    "text": "No notices"
+  },
+  {
+    "tag": "DIV",
+    "text": "This video is reaching viewers and earning according to your settings"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Private"
+  },
+  {
+    "tag": "DIV",
+    "text": "Aug 22, 2026"
+  },
+  {
+    "tag": "DIV",
+    "text": "Uploaded"
+  },
+  {
+    "tag": "SPAN",
+    "text": "Rows per page:"
+  },
+  {
+    "tag": "SPAN",
+    "text": "1–11 of 11"
+  },
+  {
+    "tag": "P",
+    "text": "Oops, something went wrong."
+  },
+  {
+    "tag": "DIV",
+    "text": "Retry"
+  },
+  {
+    "tag": "P",
+    "text": "Oops, something went wrong."
+  },
+  {
+    "tag": "DIV",
+    "text": "Retry"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "if (window.ytcsi) {window.ytcsi.tick('ac', null, '');}"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "if (window.ytcsi) {window.ytcsi.tick('hr', null, '');}"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "if (window.ytcsi) {ytcsi.infoGel({serverTimeMs:  147.0 }, '');}"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "ytcfg.set({\"CSI_SERVICE_NAME\": 'youtube_creator_studio', \"TIMING_INFO\": {}})"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "(function() {if (window.ytAtN) {window.ytAtN({'T': 'ASAFAUIR_Xzedm2HMycRVD76t_7SQXrD83PdVFNC0sno9Ob1xyK-c1hg1WbCtHwoMqwLAmnp8KA0G4AmRbdWDj9KZE4\\x3d',});}})();"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "window.chunkedPrefetchResolvers['id-0'].resolve({\"channelId\":\"UC1hr6pLEGC8PN_Yh0T8ZOTA\",\"title\":\"O Estoico Moderno\",\"thumbnailDetails\":{\"thumbnails\":[{\"url\":\"https://yt3.ggpht.com/G-sLyGC82qC77H-6IqZORKQwikDQeOCuLUVXhYXafeqSdQYkmEAnsA7U9_U-1amuLLCswoXn2Q=s48-c-k-c0x00ffffff-no-rj\",\"width\":48,\"height\":48},{\"url\":\"https://yt3.ggpht.com/G-sLyGC82qC77H-6IqZORKQwikDQeOCuLUVXhYXafeqSdQYkmEAnsA7U9_U-1amuLLCswoXn2Q=s88-c-k-c0x00ffffff-no-rj\",\"width\":88,\"height\":88},{\"url\":\"https://yt3.ggpht.com/G-sLyGC82qC77H-6IqZORKQwikDQeOCuLUVXhYXafeqSdQYkmEAnsA7U9_U-1amuLLCswoXn2Q=s176-c-k-c0x00ffffff-no-rj\",\"width\":176,\"height\":176}]},\"features\":{\"unlistedVideo\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"customThumbnails\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"channelCreativeCommonsLicense\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"legacyNoOffwebSyndication\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"audioOnlyUsage\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"usagePolicy\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"posts\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"sponsorships\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"sponsorsOnlyVideos\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"sponsorsOnlyLiveChat\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"copycat\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"donations\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"liveStreaming\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\",\"requirements\":{\"mustTrustTiersVerify\":true,\"mustSignLiveTermsOfService\":false,\"mustSatisfyAgeRequirements\":false}},\"reels\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"mentions\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"liveToAnyMatching\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"liveToLiveOnlyMatching\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"externalLinksInVideoAnnotations\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"unlimitedVideoLengthFeature\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"contentIdMatching\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"selfCertification\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"externalLinksInVideoAnnotationsTermsAccepted\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"externalLinksInVideoAnnotationsPrivilegedAccess\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"channelRedirectUrl\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"conditionalRedirects\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"channelHiding\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"limitedAdsReport\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"adSpecifyAgeGates\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"trustedToApplyForMonetization\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"canHideViewCount\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"enableCustomizePremiereFlow\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"liveRedirect\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"liveTrailer\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"sponsorshipsAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"enforceTwoStepVerification\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"productsAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"sponsorshipsCommentsFilter\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"prechecksNotifications\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"superThanksCommentsFilter\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"externalLinksInVideoDescription\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"mobileLiveStreaming\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"supers\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shoppingAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"remixOptOutTos\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"remixOptOutTorso\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"pangea\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"pflContractFlowEnabled\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"customThumbnailsHighRate\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"yppMobileFlow\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"yppMobileWithAffiliateFlow\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"channelShoppingHub\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"multiTrackAudio\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"autoProducts\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"remixTorsoOwnerOptedIn\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"channelCourseCreation\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"pinnedComments\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"liveSrtIngestion\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"adstubePromotions\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\",\"details\":{\"hasPairedAdstubeAccount\":false}},\"pflContracted\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"primetimeAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\",\"tvfilmSelfServeStatus\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"rssPodcasts\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"externalLinks\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"bcx\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shortsContentLinks\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"simplifiedAdsControls\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"shoppingFirstPartySalesAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"podcastShows\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"aloudDubbing\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"adBlockingControls\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"macroMarkers\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"brandPartnerLinking\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"thumbnailExperiments\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"primetimeContentTabs\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"affiliateFeature\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\",\"details\":{}},\"shoppingAffiliateHubFeature\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"autoTagging\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\",\"statusDetails\":\"CREATOR_FEATURE_STATUS_DETAILS_NOT_APPLICABLE\"},\"tvfilmShelves\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shows\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"viewerPosts\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"accountTakeoverSelfCleanup\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\",\"details\":{\"ineligibilityReason\":\"CHANNEL_ACCOUNT_TAKEOVER_SELF_CLEANUP_INELIGIBILITY_REASON_NO_SUSPICIOUS_ACTIVITIES\"}},\"automatedDubbing\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shoppingFirstPartySalesAnalyticsPerProduct\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"autoDubSettings\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"thirdPartyTrainability\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"contentInspiration\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"creatorStore\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"exclusiveOffers\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoProductTagging\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"viewerPostsCommentsFilter\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoCollaborationInvite\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"autoDubEarlyAccess\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"creatorLikeness\":{\"status\":\"CREATOR_FEATURE_STATUS_ELIGIBLE\"},\"autoDubDefaultOn\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"creatorChat\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"localizedThumbnails\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shortsProductSticker\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"channelGuidelines\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"customEpisodicArtworks\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoHostedPostCreation\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"viewerPostsEdu\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"giftAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"hypeAnalytics\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shoppingAmazonAffiliate\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"biggerThumbnails\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\",\"details\":{\"maxThumbnailSize\":\"BIGGER_THUMBNAIL_SIZE_UNKNOWN\"}},\"creatorInitiatedLinking\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoRegionalAvailability\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoVpnProtection\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoHighlightSuggestions\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"videoFileAttachment\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"affiliatePartnershipAds\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoDrmProtection\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"genaiAudioswap\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"createThumbnailP13nExperiment\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"tvShows\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"videoSmartDraft\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"verificationTab\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"tvfilmSelfServeSku\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shoppingAmazonDataLimitationBanner\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"fixableViolations\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"prechecksAutopublish\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"playablesBuilder\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"shortsCustomThumbnailsOnWeb\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"audioToVideo\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"tvfilmSelfServe\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"},\"analyticsHubEligible\":{\"status\":\"CREATOR_FEATURE_STATUS_ENABLED\"},\"mobileVideoEditorSuggestedSectionTagProducts\":{\"status\":\"CREATOR_FEATURE_STATUS_DISABLED\"}},\"settings\":{\"copyright\":{\"copyrightAgreementStatus\":\"CREATOR_COPYRIGHT_AGREEMENT_STATUS_UNKNOWN\"},\"studio\":{\"currency\":\"USD\"},\"uploadDefaults\":{\"title\":\"\",\"description\":\"\",\"privacy\":\"VIDEO_PRIVACY_PUBLIC\",\"license\":\"VIDEO_LICENSE_STANDARD\",\"allowRatings\":true,\"uncaptionedReason\":\"VIDEO_UNCAPTIONED_REASON_UNNECESSARY_OR_NOT_SET\",\"privacyDefaults\":{\"privacy\":\"VIDEO_PRIVACY_PUBLIC\",\"wasSet\":false},\"adSettings\":{\"autoAdSettings\":\"AUTO_AD_SETTINGS_TYPE_OFF\"},\"paidProductPlacement\":\"VIDEO_PAID_PRODUCT_PLACEMENT_UNSET\",\"enablePostLevelCommentSettings\":true},\"coreSettings\":{},\"shoppingSettings\":{\"autoTaggingEnabled\":{}}},\"responseStatus\":{\"statusCode\":\"CREATOR_ENTITY_STATUS_OK\"},\"metric\":{\"subscriberCount\":\"3\",\"videoCount\":\"9\",\"totalVideoViewCount\":\"170\"},\"permissions\":{\"overallPermissions\":[\"CREATOR_CHANNEL_PERMISSION_CHANNEL_OWNER\",\"CREATOR_CHANNEL_PERMISSION_READ\",\"CREATOR_CHANNEL_PERMISSION_BASIC_METADATA_READ\",\"CREATOR_CHANNEL_PERMISSION_WRITE\",\"CREATOR_CHANNEL_PERMISSION_VIDEO_READ\",\"CREATOR_CHANNEL_PERMISSION_VIDEO_BASIC_METADATA_READ\",\"CREATOR_CHANNEL_PERMISSION_VIDEO_UPLOAD\",\"CREATOR_CHANNEL_PERMISSION_VIDEO_DELETER\",\"CREATOR_CHANNEL_PERMISSION_CAPTION_READ\",\"CREATOR_CHANNEL_PERMISSION_CAPTION_WRITE\",\"CREATOR_CHANNEL_PERMISSION_COMMENT_MANAGER\",\"CREATOR_CHANNEL_PERMISSION_COMMENT_SETTINGS_READER\",\"CREATOR_CHANNEL_PERMISSION_COMMENT_SETTINGS_WRITER\",\"CREATOR_CHANNEL_PERMISSION_STUDIO_CHANNEL_LEVEL_ACCESS\",\"CREATOR_CHANNEL_PERMISSION_MONETIZATION_SETTINGS_READ\",\"CREATOR_CHANNEL_PERMISSION_SETTINGS_MANAGE\",\"CREATOR_CHANNEL_PERMISSION_USER_MANAGE\",\"CREATOR_CHANNEL_PERMISSION_CONTRACT_SIGN\",\"CREATOR_CHANNEL_PERMISSION_ENFORCEMENT_APPELLANT\",\"CREATOR_CHANNEL_PERMISSION_ENFORCEMENT_READER\",\"CREATOR_CHANNEL_PERMISSION_ACCOUNT_TAKEOVER_SELF_CLEANUP_TOOL_READER\",\"CREATOR_CHANNEL_PERMISSION_LIKENESS_PROVIDER\",\"CREATOR_CHANNEL_PERMISSION_LIKENESS_MANAGER\",\"CREATOR_CHANNEL_PERMISSION_VIDEO_COLLABORATION_MANAGER\",\"CREATOR_CHANNEL_PERMISSION_CHANNEL_VERIFICATION_MANAGER\",\"CREATOR_CHANNEL_PERMISSION_COMMENT_READER\",\"CREATOR_CHANNEL_PERMISSION_COMMENT_WRITER\"]},\"timeCreatedSeconds\":\"1787441579\",\"isOfficialArtistChannel\":false,\"isNameVerified\":false,\"channelVisibility\":\"CREATOR_CHANNEL_VISIBILITY_PUBLIC\",\"interstitials\":{\"yppWarmWelcomeState\":\"CREATOR_WARM_WELCOME_STATE_UNKNOWN\"},\"monetizationStatusData\":{\"isMonetizationBasicsReady\":false,\"isLongformAdsEnabled\":false,\"isShortsRevshareEnabled\":false},\"brandDealLinks\":{}});"
+  },
+  {
+    "tag": "SCRIPT",
+    "text": "if (window.ytcsi) {window.ytcsi.tick('fhc', null, '');}"
+  }
+]

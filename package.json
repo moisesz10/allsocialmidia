@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "csv-parser": "^3.2.1",
+    "puppeteer-core": "^24.43.1"
+  }
+}
