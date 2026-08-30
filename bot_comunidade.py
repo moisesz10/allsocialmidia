@@ -15,7 +15,7 @@ def post_community(page, text, schedule_date, schedule_time, publish_now):
             time.sleep(1)
         except Exception:
             print("Caixa de texto não apareceu imediatamente. Tentando clicar no placeholder...")
-            page.locator("ytd-backstage-post-creation-renderer #placeholder").click(force=True)
+            page.locator("#commentbox-placeholder").click(force=True)
             time.sleep(1)
             input_box = page.locator("div#contenteditable-root").first
             input_box.click(force=True)
@@ -40,7 +40,7 @@ def post_community(page, text, schedule_date, schedule_time, publish_now):
         
         if publish_now:
             print("🚀 Publicando AGORA!")
-            post_btn = page.locator("ytd-button-renderer#submit-button").first
+            post_btn = page.locator("ytd-button-renderer#post-button button").first
             if post_btn.is_visible():
                 post_btn.click()
             else:
@@ -51,11 +51,19 @@ def post_community(page, text, schedule_date, schedule_time, publish_now):
             print(f"⏰ Agendando para {schedule_date} às {schedule_time}")
             
             # Clica no ícone do relógio para agendar
-            schedule_icon = page.locator("ytd-button-renderer#schedule-button").first
-            if schedule_icon.is_visible():
-                schedule_icon.click()
+            # Abre o menu de opções
+            action_menu = page.locator("#option-menu button").last
+            if action_menu.is_visible():
+                action_menu.click()
+                time.sleep(1)
+                # Clica na última opção (Programar postagem)
+                page.locator("tp-yt-paper-item").last.click()
             else:
-                page.get_by_role("button", name="Programar").first.click()
+                schedule_icon = page.locator("ytd-button-renderer#schedule-button").first
+                if schedule_icon.is_visible():
+                    schedule_icon.click()
+                else:
+                    page.get_by_role("button", name="Programar").first.click()
                 
             time.sleep(2)
             
@@ -113,8 +121,20 @@ def run_bot(csv_path):
             page = None
             for p_ in context.pages:
                 if 'youtube.com' in p_.url:
-                    page = p_
-                    break
+                    if 'studio.youtube.com/channel/' in p_.url:
+                        import re
+                        match = re.search(r'channel/([^/]+)', p_.url)
+                        if match:
+                            channel_id = match.group(1)
+                            print(f"⚠️ Aba do YouTube Studio detectada! Redirecionando para a Comunidade normal...")
+                            p_.bring_to_front()
+                            p_.goto(f"https://www.youtube.com/channel/{channel_id}/community")
+                            time.sleep(4)
+                        page = p_
+                        break
+                    elif 'studio.youtube.com' not in p_.url:
+                        page = p_
+                        break
                     
             if not page:
                 print("❌ Nenhuma aba do YouTube aberta! Por favor, abra a aba da sua Comunidade antes de rodar.")
@@ -130,7 +150,7 @@ def run_bot(csv_path):
             return
         
         for i, post in enumerate(posts):
-            is_first_day = (i < 2)
+            is_first_day = (i < 1)
             
             date_str = post['data']
             time_str = post['hora']
