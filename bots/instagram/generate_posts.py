@@ -126,7 +126,7 @@ def main():
         
         # 5 dias
         for day in range(5):
-            date_str = (start_date + timedelta(days=day)).strftime("%b %d, %Y")
+            date_str = (start_date + timedelta(days=day)).strftime("%d/%m/%Y")
             
             # 2 Posts
             for time_str in ["10:00 AM", "02:00 PM"]:
