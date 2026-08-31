@@ -182,35 +182,24 @@ def run_bot(csv_path):
         # Handler de JS dialogs (Leave page? etc.) para não travar o robô
         page.on("dialog", lambda d: (print(f"💬 Dialog auto-dismiss: {d.message[:60]}"), d.accept()))
         
-        for i in range(0, len(videos), 2):
-            short_vid = videos[i] if i < len(videos) and 'short' in videos[i]['video_id'] else None
-            long_vid = videos[i+1] if i+1 < len(videos) and 'long' in videos[i+1]['video_id'] else None
-            
+        # Foca apenas em shorts
+        shorts = [v for v in videos if 'short' in v['video_id']]
+        
+        for i, short_vid in enumerate(shorts):
             is_first_day = (i == 0)
             date_str = current_day.strftime("%d/%m/%Y")
             
-            if short_vid:
-                # Shorts às 11:30
-                desc = short_vid['legenda_post'] + "\n\n" + short_vid['hashtags']
-                video_path = os.path.abspath(short_vid['caminho_arquivo_video'])
-                upload_video(page, video_path, short_vid['titulo'], desc, date_str, "11:30", publish_now=is_first_day)
-                time.sleep(5)
-                
-            if long_vid:
-                # Longos às 19:00
-                desc = long_vid['legenda_post'] + "\n\n" + long_vid['hashtags']
-                video_path = os.path.abspath(long_vid['caminho_arquivo_video'])
-                upload_video(page, video_path, long_vid['titulo'], desc, date_str, "19:00", publish_now=is_first_day)
-                time.sleep(5)
+            # Shorts às 11:30
+            desc = short_vid['legenda_post'] + "\n\n" + short_vid['hashtags']
+            video_path = os.path.abspath(short_vid['caminho_arquivo_video'])
+            upload_video(page, video_path, short_vid['titulo'], desc, date_str, "11:30", publish_now=is_first_day)
+            time.sleep(5)
             
             current_day += timedelta(days=1)
             
-        print("🎉 Todos os vídeos foram agendados!")
+        print("🎉 Todos os Shorts foram agendados!")
         page.close()
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Uso: python bot_uploader.py <caminho_do_csv>")
-        sys.exit(1)
-        
-    run_bot(sys.argv[1])
+    csv_path = sys.argv[1] if len(sys.argv) > 1 else 'data/cronograma_21_posts.csv'
+    run_bot(csv_path)

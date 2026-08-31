@@ -114,7 +114,7 @@ def main():
         
     os.makedirs("output/instagram_batch", exist_ok=True)
     
-    csv_file = "cronograma_instagram.csv"
+    csv_file = "data/cronograma_instagram.csv"
     start_date = datetime.now() + timedelta(days=1)
     
     with open(csv_file, "w", encoding="utf-8", newline="") as f:

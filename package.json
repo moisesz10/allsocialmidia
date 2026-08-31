@@ -1,4 +1,13 @@
 {
+  "scripts": {
+    "bot:instagram": "node bots/instagram/publish.js",
+    "bot:youtube:shorts": ".venv/bin/python bots/youtube/publish_shorts.py",
+    "bot:youtube:longs": ".venv/bin/python bots/youtube/publish_longs.py",
+    "bot:youtube:community": ".venv/bin/python bots/youtube/publish_community.py",
+    "generate:instagram:posts": ".venv/bin/python bots/instagram/generate_posts.py",
+    "generate:instagram:reels": ".venv/bin/python bots/instagram/generate_reels.py",
+    "generate:youtube:community": ".venv/bin/python bots/youtube/generate_community.py"
+  },
   "dependencies": {
     "csv-parse": "^7.0.2",
     "csv-parser": "^3.2.1",

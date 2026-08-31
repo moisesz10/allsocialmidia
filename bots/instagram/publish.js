@@ -8,8 +8,11 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function runInstagramBot() {
     console.log("Iniciando Bot do Instagram (Meta Business Suite)...");
 
-    // Lendo o CSV
-    const csvData = fs.readFileSync('cronograma_instagram.csv', 'utf8');
+    const args = process.argv.slice(2);
+    const csvPath = args.length > 0 ? args[0] : 'data/cronograma_instagram.csv';
+    
+    console.log(`Lendo arquivo CSV: ${csvPath}`);
+    const csvData = fs.readFileSync(csvPath, 'utf8');
     const records = parse(csvData, {
         columns: true,
         skip_empty_lines: true
@@ -118,11 +121,31 @@ async function runInstagramBot() {
                     }
                 }
 
+                if (type === 'reel' || type === 'video') {
+                    console.log("Avançando as telas do Reel (Next)...");
+                    for (let attempt = 0; attempt < 5; attempt++) {
+                        const nextBtns = await metaPage.$$('::-p-text(Next)');
+                        if (nextBtns.length > 0) {
+                            await nextBtns[nextBtns.length - 1].click();
+                            await sleep(2000);
+                        }
+                    }
+                }
+
                 // Agendamento
-                console.log("Ativando agendamento (Set date and time)...");
+                console.log("Ativando agendamento (Set date and time) ou Schedule options...");
                 const scheduleToggle = await metaPage.$$('::-p-text(Set date and time)');
                 if (scheduleToggle.length > 0) {
                     await scheduleToggle[0].click();
+                    await sleep(2000);
+                } else {
+                    const scheduleRadio = await metaPage.$$('::-p-text(Schedule)');
+                    for (let btn of scheduleRadio) {
+                        const isRadio = await metaPage.evaluate(el => el.getAttribute('role') === 'radio' || el.tagName === 'DIV', btn);
+                        if (isRadio) {
+                            await btn.click().catch(()=>null);
+                        }
+                    }
                     await sleep(2000);
                 }
 
