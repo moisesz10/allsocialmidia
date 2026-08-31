@@ -64,14 +64,16 @@ async function runInstagramBot() {
                 let createBtns = [];
                 if (type === 'reel' || type === 'video') {
                      createBtns = await metaPage.$$('::-p-text(Create reel)');
+                     if (createBtns.length === 0) createBtns = await metaPage.$$('::-p-text(Create Reel)');
                 } else {
                      createBtns = await metaPage.$$('::-p-text(Create post)');
+                     if (createBtns.length === 0) createBtns = await metaPage.$$('::-p-text(Create Post)');
                 }
                 
                 if (createBtns.length > 0) {
                     await createBtns[0].click();
                     console.log("Aguardando página de criação abrir...");
-                    await sleep(8000);
+                    await sleep(15000);
                 } else {
                     console.log(`ERRO: Botão Create ${type} não encontrado.`);
                     continue;
@@ -83,6 +85,8 @@ async function runInstagramBot() {
                 if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add video)');
                 if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add Video)');
                 if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add photo/video)');
+                if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add Media)');
+                if (addPhotoBtn.length === 0) addPhotoBtn = await metaPage.$$('::-p-text(Add media)');
                 
                 if (addPhotoBtn.length > 0) {
                     const fileChooserPromise = metaPage.waitForFileChooser({timeout: 5000}).catch(() => null);
@@ -134,7 +138,8 @@ async function runInstagramBot() {
 
                 // Agendamento
                 console.log("Ativando agendamento (Set date and time) ou Schedule options...");
-                const scheduleToggle = await metaPage.$$('::-p-text(Set date and time)');
+                let scheduleToggle = await metaPage.$$('::-p-text(Set date and time)');
+                if (scheduleToggle.length === 0) scheduleToggle = await metaPage.$$('::-p-text(Set Date and Time)');
                 if (scheduleToggle.length > 0) {
                     await scheduleToggle[0].click();
                     await sleep(2000);
@@ -151,7 +156,8 @@ async function runInstagramBot() {
 
                 // Inserir Data (no formato mm/dd/yyyy ou o aceito pela região do PC)
                 console.log(`Inserindo data: ${row.data}`);
-                const dateInputs = await metaPage.$$('input[placeholder*="yyyy"]');
+                let dateInputs = await metaPage.$$('input[placeholder*="yyyy"]');
+                if (dateInputs.length === 0) dateInputs = await metaPage.$$('input[placeholder*="aaaa"]');
                 if (dateInputs.length > 0) {
                     await dateInputs[0].click({clickCount: 3}); 
                     await dateInputs[0].press('Backspace');
