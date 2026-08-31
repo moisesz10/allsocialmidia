@@ -27,6 +27,12 @@ Não adicione títulos ou numeração no início de cada post, apenas o texto da
         contents=prompt,
     )
     
+    if not response.text:
+        print("❌ Erro: O modelo não retornou texto. O conteúdo pode ter sido bloqueado pelos filtros de segurança.")
+        if getattr(response, "candidates", None) and response.candidates:
+            print(f"Motivo (finish_reason): {response.candidates[0].finish_reason}")
+        return
+        
     posts_text = response.text.split("---POST_SEPARATOR---")
     posts = [p.strip() for p in posts_text if p.strip()]
     
