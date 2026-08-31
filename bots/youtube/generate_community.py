@@ -36,7 +36,7 @@ Não adicione títulos ou numeração no início de cada post, apenas o texto da
     print(f"✅ Foram geradas {len(posts)} postagens.")
     
     # Salva no CSV
-    csv_file = "cronograma_comunidade.csv"
+    csv_file = "data/cronograma_comunidade.csv"
     current_day = datetime.now()
     
     with open(csv_file, "w", encoding="utf-8", newline="") as f:

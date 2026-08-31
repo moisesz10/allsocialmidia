@@ -168,8 +168,5 @@ def run_bot(csv_path):
         print("🎉 Todas as postagens foram processadas!")
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Uso: python bot_comunidade.py <caminho_do_csv>")
-        sys.exit(1)
-        
-    run_bot(sys.argv[1])
+    csv_path = sys.argv[1] if len(sys.argv) > 1 else 'data/cronograma_comunidade.csv'
+    run_bot(csv_path)
