@@ -28,3 +28,4 @@ chrome.log
 page_html.txt
 debug*.py
 debug*.js
+web_export/
