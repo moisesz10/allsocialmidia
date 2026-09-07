@@ -1,75 +1,76 @@
-# AllSocialMidia - Produtora Automatizada de Vídeos 🎬
+# AllSocialMidia - Automated Video Production 🎬
 
-Este projeto é uma ferramenta automatizada para criação e publicação em massa de vídeos curtos (Shorts, Reels, TikTok, Kwai) e longos. Ele utiliza Inteligência Artificial para roteirizar, narrar e editar vídeos automaticamente, além de possuir robôs (bots) para publicá-los nas redes sociais.
+This project is an automated tool for mass creation and publishing of short-form videos (Shorts, Reels, TikTok, Kwai) and long-form videos. It leverages Artificial Intelligence for scriptwriting, voiceovers, and automatic video editing, along with bots to automatically publish the content to social media platforms.
 
-## 🚀 Principais Recursos
+## 🚀 Key Features
 
-- **Geração de Roteiros Virais:** Utiliza a API do Google Gemini para criar roteiros otimizados.
-- **Vozes Neurais:** Narrações realistas geradas através do Edge-TTS.
-- **B-Roll Inteligente:** Busca automaticamente vídeos de fundo na API do Pexels baseados no contexto.
-- **Edição e Efeitos:** Legendas no estilo "Hormozi" com cores de destaque e ajuste automático de áudio (ducking) com trilhas sonoras de fundo.
-- **Publicação Automática (Bots):** Scripts em Node.js (Puppeteer) e Python para postar automaticamente no Instagram, YouTube e Kwai.
+- **Viral Script Generation:** Uses the Google Gemini API to create highly optimized scripts.
+- **Neural Voices:** Generates realistic voiceovers using Edge-TTS.
+- **Smart B-Roll:** Automatically fetches contextual background videos from the Pexels API.
+- **Editing & Effects:** Features "Hormozi" style captions with highlight colors, automatic audio ducking, and background soundtracks.
+- **Auto-Publishing Bots:** Node.js (Puppeteer) and Python scripts to automatically post content on Instagram, YouTube, and Kwai.
 
-## ⚙️ Pré-requisitos e Configuração
+## ⚙️ Prerequisites & Setup
 
-Para que o sistema funcione corretamente, você precisa configurar um arquivo `.env` na raiz do projeto (use o `.env.example` como base) contendo suas chaves de API:
+For the system to work properly, you need to configure a `.env` file in the root directory (use `.env.example` as a template) containing your API keys:
 
 ```env
-GEMINI_API_KEY=sua_chave_do_google_gemini
-PEXELS_API_KEY=sua_chave_do_pexels
+GEMINI_API_KEY=your_google_gemini_key
+PEXELS_API_KEY=your_pexels_key
 ```
 
-## 🛠️ Como Usar (Geração de Vídeos)
+## 🛠️ How to Use (Video Generation)
 
-Você pode iniciar a interface principal do sistema de três formas:
+You can launch the main system interface in three different ways:
 
-1. **Modo Interativo (CLI):**
-   Abre um menu no terminal onde você pode escolher o nicho, tópico, formato (9:16, 16:9, 1:1), música de fundo e cor das legendas.
+1. **Interactive Mode (CLI):**
+   Opens a terminal menu where you can select the niche, topic, format (9:16, 16:9, 1:1), background music, and caption colors.
    ```bash
    python main.py
    ```
 
-2. **Modo Web (Interface Gráfica):**
-   Inicia um servidor local com uma interface web para gerenciar a criação dos vídeos.
+2. **Web Mode (GUI):**
+   Starts a local server with a web interface to manage video creation.
    ```bash
    python main.py --web
    ```
 
-3. **Geração em Lote (Scripts prontos):**
-   Para gerar dezenas de vídeos de uma vez sobre um nicho específico (como a filosofia estóica), basta rodar os scripts pré-configurados:
+3. **Batch Generation (Scripts):**
+   To generate dozens of videos at once for a specific niche (e.g., stoic philosophy), simply run the pre-configured scripts:
    ```bash
-   python generate_kwai.py
-   # ou
-   python generate_kwai_remaining.py
+   python scripts/generate_kwai.py
+   # or
+   python scripts/generate_kwai_remaining.py
    ```
-   Os vídeos finalizados e os arquivos associados serão salvos na pasta `output/`.
+   The finished videos and associated assets will be saved in the `output/` folder.
 
-## 🤖 Como Usar (Publicação Automática)
+## 🤖 How to Use (Auto-Publishing)
 
-O projeto possui comandos mapeados no `package.json` para facilitar a execução dos bots de publicação. Você pode usar os seguintes comandos via NPM:
+The project includes pre-mapped commands in `package.json` to make running the publishing bots easier. You can use the following NPM commands:
 
 **Instagram:**
-- `npm run bot:instagram` - Publicar posts.
-- `npm run generate:instagram:reels` - Gera pacote para Reels.
-- *(Também há comandos para follow/delete em massa: `npm run bot:instagram:follow`)*
+- `npm run bot:instagram` - Publish posts.
+- `npm run generate:instagram:reels` - Generate a Reels package.
+- *(Includes commands for mass follow/delete: `npm run bot:instagram:follow`)*
 
 **YouTube:**
-- `npm run bot:youtube:shorts` - Publica YouTube Shorts.
-- `npm run bot:youtube:longs` - Publica vídeos longos.
-- `npm run bot:youtube:community` - Publica posts na comunidade.
+- `npm run bot:youtube:shorts` - Publish YouTube Shorts.
+- `npm run bot:youtube:longs` - Publish long-form videos.
+- `npm run bot:youtube:community` - Publish community posts.
 
 **Kwai:**
-- `npm run bot:kwai:shorts` - Publica no Kwai.
-- `npm run generate:kwai:shorts` - Gera pacote de vídeos para Kwai.
+- `npm run bot:kwai:shorts` - Publish to Kwai.
+- `npm run generate:kwai:shorts` - Generate a video package for Kwai.
 
-## 📁 Estrutura de Pastas
+## 📁 Folder Structure
 
-- `/src/` - Núcleo da aplicação em Python (geração de conteúdo, áudio, vídeo, download de mídias).
-- `/bots/` - Scripts de automação (Puppeteer/Node.js e Python) para interagir com as plataformas.
-- `/assets/` - Recursos estáticos (fontes, trilhas sonoras).
-- `/output/` - Onde os vídeos e kits finais gerados são armazenados.
-- `/data/` e `/chrome_profile/` - Dados locais e sessão do navegador para os bots (mantém os logins salvos).
+- `/src/` - Core Python application (content generation, audio, video, media downloads).
+- `/bots/` - Automation scripts (Puppeteer/Node.js and Python) to interact with the platforms.
+- `/scripts/` - Standalone scripts for mass batch video generation.
+- `/assets/` - Static resources (fonts, soundtracks).
+- `/output/` - Where the final generated videos and kits are stored.
+- `/data/` and `/chrome_profile/` - Local data and browser sessions for bots (keeps logins saved).
 
 ---
 
-> **Dica:** Sempre garanta que o ambiente virtual (`.venv`) está ativo antes de rodar os scripts Python. Use `source .venv/bin/activate` (Linux/Mac) ou `.venv\Scripts\activate` (Windows).
+> **Tip:** Always ensure your virtual environment (`.venv`) is active before running the Python scripts. Use `source .venv/bin/activate` (Linux/Mac) or `.venv\Scripts\activate` (Windows).
