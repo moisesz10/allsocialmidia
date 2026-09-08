@@ -10,6 +10,15 @@ This project is an automated tool for mass creation and publishing of short-form
 - **Editing & Effects:** Features "Hormozi" style captions with highlight colors, automatic audio ducking, and background soundtracks.
 - **Auto-Publishing Bots:** Node.js (Puppeteer) and Python scripts to automatically post content on Instagram, YouTube, and Kwai.
 
+## 💰 Zero-Cost Architecture
+
+One of the standout features of this project is its highly optimized, zero-cost operational structure:
+- **Scripts (LLM):** Uses the generous Free Tier of the Google Gemini API.
+- **Voiceovers:** Uses Edge-TTS (Microsoft Edge Read Aloud API) for free, high-quality neural voices.
+- **Background Media:** Fetches free stock videos directly from the Pexels API.
+- **Video Editing:** Processing is done entirely locally using `moviepy`, eliminating cloud rendering costs.
+- **Publishing:** Automation runs via local Puppeteer browsers, avoiding expensive third-party SaaS scheduling platforms.
+
 ## ⚙️ Prerequisites & Setup
 
 For the system to work properly, you need to configure a `.env` file in the root directory (use `.env.example` as a template) containing your API keys:
