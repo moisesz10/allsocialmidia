@@ -9,7 +9,9 @@
     "generate:instagram:posts": ".venv/bin/python bots/instagram/generate_posts.py",
     "generate:instagram:reels": ".venv/bin/python bots/instagram/generate_reels.py",
     "generate:youtube:community": ".venv/bin/python bots/youtube/generate_community.py",
-    "generate:kwai:shorts": ".venv/bin/python bots/kwai/generate_shorts.py"
+    "generate:kwai:shorts": ".venv/bin/python bots/kwai/generate_shorts.py",
+    "bot:instagram:delete": "node bots/instagram/mass_action.js delete",
+    "bot:instagram:follow": "node bots/instagram/mass_action.js follow"
   },
   "dependencies": {
     "csv-parse": "^7.0.2",
